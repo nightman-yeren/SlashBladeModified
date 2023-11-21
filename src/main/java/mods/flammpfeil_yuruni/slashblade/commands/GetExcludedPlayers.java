@@ -14,7 +14,7 @@ public class GetExcludedPlayers {
 
     public GetExcludedPlayers(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("slashBlade")
-        .requires(cs->cs.hasPermission(2))
+        .requires(cs->cs.hasPermission(4))
         .then(Commands.literal("excludePlayer")
         .then(Commands.literal("get")
         .executes(this::getPlayers))));

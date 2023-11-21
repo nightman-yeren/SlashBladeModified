@@ -1,10 +1,15 @@
 package mods.flammpfeil_yuruni.slashblade.memory;
 
+import net.minecraft.world.entity.player.Player;
+
 public class HitRuleMemory {
 
     boolean hitRulePlayer = false;
     boolean hitRulePassive = false;
     boolean hitRuleAggressive = false;
+    Player currentPlayer = null;
+    //ENABLES HIT RULE - CURRENTLY BUGGY
+    boolean hitRuleEnabled = false;
 
     private static final class hitRuleMemoryHolder {
         private static final HitRuleMemory instance = new HitRuleMemory();
@@ -26,6 +31,14 @@ public class HitRuleMemory {
         return hitRuleAggressive;
     }
 
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public boolean isHitRuleEnabled() {
+        return hitRuleEnabled;
+    }
+
     public void setHitRulePlayer(boolean hitRulePlayer) {
         this.hitRulePlayer = hitRulePlayer;
     }
@@ -36,5 +49,13 @@ public class HitRuleMemory {
 
     public void setHitRuleAggressive(boolean hitRuleAggressive) {
         this.hitRuleAggressive = hitRuleAggressive;
+    }
+
+    public void setHitRuleEnabled(boolean hitRuleEnabled) {
+        this.hitRuleEnabled = hitRuleEnabled;
+    }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
     }
 }

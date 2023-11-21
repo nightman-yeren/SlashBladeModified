@@ -13,7 +13,7 @@ import net.minecraft.server.level.ServerPlayer;
 public class RemoveExcludedPlayers {
     public RemoveExcludedPlayers(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("slashBlade")
-            .requires(cs->cs.hasPermission(2))
+            .requires(cs->cs.hasPermission(4))
             .then(Commands.literal("excludePlayer")
             .then(Commands.literal("remove")
             .then(Commands.argument("playerName", StringArgumentType.string())

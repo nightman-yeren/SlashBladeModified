@@ -40,6 +40,14 @@ public class LocalPlayerDataHandler {
             hitAggressive = Boolean.parseBoolean(hitAggressiveString);
         }
         SlashBlade.hitRuleMemory.setHitRuleAggressive(hitAggressive);
+        String hitRuleString = FileUtils.loadDataFromFile("hitRule", "false");
+        boolean hitRule = false;
+        if (!hitRuleString.isEmpty()) {
+            hitRule = Boolean.parseBoolean(hitRuleString);
+        }
+        SlashBlade.hitRuleMemory.setHitRuleAggressive(hitRule);
+        //Set current player
+        SlashBlade.hitRuleMemory.setCurrentPlayer(event.getEntity());
     }
 
 }

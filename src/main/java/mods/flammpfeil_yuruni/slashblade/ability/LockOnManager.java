@@ -106,11 +106,13 @@ public class LockOnManager {
                             foundEntity = Optional.empty();
                         }
                     }
-                    if (foundEntity.get() instanceof Animal && !SlashBlade.hitRuleMemory.isHitRulePassive()) {
-                        foundEntity = Optional.empty();
-                    }
-                    if (foundEntity.get() instanceof Monster && !SlashBlade.hitRuleMemory.isHitRuleAggressive()) {
-                        foundEntity = Optional.empty();
+                    if (SlashBlade.hitRuleMemory.isHitRuleEnabled()) {
+                        if (foundEntity.get() instanceof Animal && !SlashBlade.hitRuleMemory.isHitRulePassive()) {
+                            foundEntity = Optional.empty();
+                        }
+                        if (foundEntity.get() instanceof Monster && !SlashBlade.hitRuleMemory.isHitRuleAggressive()) {
+                            foundEntity = Optional.empty();
+                        }
                     }
                 }
             }
@@ -150,11 +152,14 @@ public class LockOnManager {
                     target = null;
                 }
             }
-            if (target instanceof Animal && !SlashBlade.hitRuleMemory.isHitRulePassive()) {
-                target = null;
-            }
-            if (target instanceof Monster && !SlashBlade.hitRuleMemory.isHitRuleAggressive()) {
-                target = null;
+            //Hit rule check
+            if (SlashBlade.hitRuleMemory.isHitRuleEnabled()) {
+                if (target instanceof Animal && !SlashBlade.hitRuleMemory.isHitRulePassive()) {
+                    target = null;
+                }
+                if (target instanceof Monster && !SlashBlade.hitRuleMemory.isHitRuleAggressive()) {
+                    target = null;
+                }
             }
             if (target == null) return;
             if (target instanceof ItemEntity) return;

@@ -38,6 +38,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 
+import static mods.flammpfeil_yuruni.slashblade.util.ExcludedPlayers.isPlayerInList;
+
 public class TargetSelector {
     static public final TargetingConditions lockon = (TargetingConditions.forCombat())
             .range(12.0D)
@@ -85,20 +87,34 @@ public class TargetSelector {
                     return false;
 
             if (livingentity instanceof Enemy)
-                return SlashBlade.hitRuleMemory.isHitRuleAggressive();
+                if (SlashBlade.hitRuleMemory.isHitRuleEnabled())
+                    return SlashBlade.hitRuleMemory.isHitRuleAggressive();
+                else
+                    return true;
 
             if (livingentity.isCurrentlyGlowing())
                 return true;
 
             if (livingentity instanceof Player)
-                return SlashBlade.hitRuleMemory.isHitRulePlayer();
+                if (isPlayerInList(SlashBlade.hitRuleMemory.getCurrentPlayer(), (Player)livingentity)) return false;
+
+                else if (SlashBlade.hitRuleMemory.isHitRuleEnabled())
+                    return SlashBlade.hitRuleMemory.isHitRulePlayer();
+                else
+                    return true;
 
             if (livingentity instanceof Wolf)
                 if (((Wolf) livingentity).isAngry()/*isAngry()*/)
-                    return SlashBlade.hitRuleMemory.isHitRulePassive();
+                    if (SlashBlade.hitRuleMemory.isHitRuleEnabled())
+                        return SlashBlade.hitRuleMemory.isHitRulePassive();
+                    else
+                        return true;
 
             if (livingentity instanceof Animal)
-                return SlashBlade.hitRuleMemory.isHitRulePassive();
+                if (SlashBlade.hitRuleMemory.isHitRuleEnabled())
+                    return SlashBlade.hitRuleMemory.isHitRulePassive();
+                else
+                    return true;
 
             if (livingentity.getTags().contains(AttackableTag)){
                 livingentity.removeTag(AttackableTag);

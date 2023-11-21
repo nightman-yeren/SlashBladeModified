@@ -37,9 +37,21 @@ public class HitRule {
                 .executes(command -> {
                     return changeAttackAggressiveRule(command, BoolArgumentType.getBool(command, "value"));
                 })))));
+        dispatcher.register(Commands.literal("slashBlade")
+                .requires(cs->cs.hasPermission(2))
+                .then(Commands.literal("hitRule")
+                .then(Commands.literal("state")
+                .then(Commands.argument("value", BoolArgumentType.bool())
+                .executes(command -> {
+                    return changeHitRuleState(command, BoolArgumentType.getBool(command, "value"));
+                })))));
     }
 
     private int changeAttackPlayerRule(CommandContext<CommandSourceStack> ctx, Boolean value) throws CommandSyntaxException {
+        if (!SlashBlade.hitRuleMemory.isHitRuleEnabled()) {
+            ctx.getSource().sendFailure(Component.literal("Hit Rule is currently off"));
+            return 0;
+        }
         CommandSourceStack source = ctx.getSource();
         boolean prevVal = SlashBlade.hitRuleMemory.isHitRulePlayer();
         if (prevVal == value) {
@@ -53,6 +65,10 @@ public class HitRule {
     }
 
     private int changeAttackPassiveRule(CommandContext<CommandSourceStack> ctx, Boolean value) throws CommandSyntaxException {
+        if (!SlashBlade.hitRuleMemory.isHitRuleEnabled()) {
+            ctx.getSource().sendFailure(Component.literal("Hit Rule is currently off"));
+            return 0;
+        }
         CommandSourceStack source = ctx.getSource();
         boolean prevVal = SlashBlade.hitRuleMemory.isHitRulePassive();
         if (prevVal == value) {
@@ -66,6 +82,10 @@ public class HitRule {
     }
 
     private int changeAttackAggressiveRule(CommandContext<CommandSourceStack> ctx, Boolean value) throws CommandSyntaxException {
+        if (!SlashBlade.hitRuleMemory.isHitRuleEnabled()) {
+            ctx.getSource().sendFailure(Component.literal("Hit Rule is currently off"));
+            return 0;
+        }
         CommandSourceStack source = ctx.getSource();
         boolean prevVal = SlashBlade.hitRuleMemory.isHitRuleAggressive();
         if (prevVal == value) {
@@ -75,6 +95,19 @@ public class HitRule {
         SlashBlade.hitRuleMemory.setHitRuleAggressive(value);
         FileUtils.saveDataToFile("hitRuleAggressive", value);
         source.sendSuccess(() -> Component.literal("(hitAggressive) changed to " + value + "! (Previous is [" + prevVal + "])"), true);
+        return 1;
+    }
+
+    private int changeHitRuleState(CommandContext<CommandSourceStack> ctx, Boolean value) {
+        CommandSourceStack source = ctx.getSource();
+        boolean prevVal = SlashBlade.hitRuleMemory.isHitRuleEnabled();
+        if (prevVal == value) {
+            source.sendSuccess(() -> Component.literal("(hitRule) value same, no changes made"), true);
+            return 0;
+        }
+        SlashBlade.hitRuleMemory.setHitRuleAggressive(value);
+        FileUtils.saveDataToFile("hitRule", value);
+        source.sendSuccess(() -> Component.literal("(hitRule) changed to " + value + "! (Previous is [" + prevVal + "])"), true);
         return 1;
     }
 

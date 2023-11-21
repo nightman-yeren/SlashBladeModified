@@ -72,22 +72,24 @@ public class LockonCircleRender {
             }
         }
         //Hit rule check
-        boolean hitPlayer = SlashBlade.hitRuleMemory.isHitRulePlayer();
-        if (!hitPlayer) {
-            if (livingEntity instanceof Player) {
-                return;
+        if (SlashBlade.hitRuleMemory.isHitRuleEnabled()) {
+            boolean hitPlayer = SlashBlade.hitRuleMemory.isHitRulePlayer();
+            if (!hitPlayer) {
+                if (livingEntity instanceof Player) {
+                    return;
+                }
             }
-        }
-        boolean hitPassive = SlashBlade.hitRuleMemory.isHitRulePassive();
-        if (!hitPassive) {
-            if (livingEntity instanceof Animal) {
-                return;
+            boolean hitPassive = SlashBlade.hitRuleMemory.isHitRulePassive();
+            if (!hitPassive) {
+                if (livingEntity instanceof Animal) {
+                    return;
+                }
             }
-        }
-        boolean hitAggressive = SlashBlade.hitRuleMemory.isHitRuleAggressive();
-        if (!hitAggressive) {
-            if (livingEntity instanceof Monster) {
-                return;
+            boolean hitAggressive = SlashBlade.hitRuleMemory.isHitRuleAggressive();
+            if (!hitAggressive) {
+                if (livingEntity instanceof Monster) {
+                    return;
+                }
             }
         }
 
