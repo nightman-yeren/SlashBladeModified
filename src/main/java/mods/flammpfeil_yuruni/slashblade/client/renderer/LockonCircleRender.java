@@ -92,6 +92,8 @@ public class LockonCircleRender {
                 }
             }
         }
+        //Line of sight check
+        if (!player.hasLineOfSight(livingEntity)) return;
 
         float health = livingEntity.getHealth() / livingEntity.getMaxHealth();
 

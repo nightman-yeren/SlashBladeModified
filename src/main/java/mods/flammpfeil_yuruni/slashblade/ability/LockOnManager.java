@@ -100,6 +100,8 @@ public class LockOnManager {
                 foundEntity = entities.stream().map(s->(Entity)s).min(Comparator.comparingDouble(e -> e.distanceToSqr(player)));
                 //Exceptions for de-selecting the entity
                 if (foundEntity.isPresent()) {
+                    //if (foundEntity.get().look)
+                    if (!player.hasLineOfSight(foundEntity.get())) foundEntity = Optional.empty();
                     if (foundEntity.get() instanceof ItemEntity) foundEntity = Optional.empty();
                     if (foundEntity.get() instanceof Player) {
                         if (isPlayerInList(player, (Player) foundEntity.get())) {
@@ -162,6 +164,7 @@ public class LockOnManager {
                 }
             }
             if (target == null) return;
+            if (!player.hasLineOfSight(target)) return;
             if (target instanceof ItemEntity) return;
             if(!target.isAlive()) return;
 
