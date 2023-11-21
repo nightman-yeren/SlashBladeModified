@@ -1,5 +1,5 @@
 {
-  "package": "mods.flammpfeil.slashblade.mixin",
+  "package": "mods.flammpfeil_yuruni.slashblade.mixin",
   "mixins": [
     "MixinPacketBuffer","MixinPlayerRenderer","MixinBlockBehaviour","MixinItemRenderer"
   ],
