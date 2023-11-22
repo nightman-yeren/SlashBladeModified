@@ -18,15 +18,14 @@ import mods.flammpfeil_yuruni.slashblade.event.client.AdvancementsRecipeRenderer
 import mods.flammpfeil_yuruni.slashblade.event.client.LocalPlayerDataHandler;
 import mods.flammpfeil_yuruni.slashblade.event.client.SneakingMotionCanceller;
 import mods.flammpfeil_yuruni.slashblade.event.client.UserPoseOverrider;
+import mods.flammpfeil_yuruni.slashblade.gamerules.SlashBladeHitRule;
 import mods.flammpfeil_yuruni.slashblade.item.BladeStandItem;
 import mods.flammpfeil_yuruni.slashblade.item.ItemSlashBlade;
 import mods.flammpfeil_yuruni.slashblade.item.ItemSoulActivated;
 import mods.flammpfeil_yuruni.slashblade.item.ItemTierSlashBlade;
 import mods.flammpfeil_yuruni.slashblade.init.SBItems;
-import mods.flammpfeil_yuruni.slashblade.memory.HitRuleMemory;
 import mods.flammpfeil_yuruni.slashblade.network.NetworkManager;
 import mods.flammpfeil_yuruni.slashblade.optional.playerAnim.PlayerAnimationOverrider;
-import mods.flammpfeil_yuruni.slashblade.util.FileManager;
 import mods.flammpfeil_yuruni.slashblade.util.TargetSelector;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -87,8 +86,6 @@ import java.util.stream.Collectors;
 public class SlashBlade
 {
     public static final String modid = "slashblade";
-
-    public static HitRuleMemory hitRuleMemory = HitRuleMemory.getInstance();
 
     public static final CreativeModeTab SLASHBLADE = CreativeModeTab.builder()
             .title(Component.translatable(modid))
@@ -207,11 +204,8 @@ public class SlashBlade
         PlacePreviewEntryPoint.getInstance().register();
         //Extra added by Yuruni
         CommandsHandler.getInstance().register();
-        FileManager.init();
+        SlashBladeHitRule.init();
         LocalPlayerDataHandler.getInstance().register();
-        // some preinit code
-        //LOGGER.info("HELLO FROM PREINIT");
-        //LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
     }
 
     @OnlyIn(Dist.CLIENT)

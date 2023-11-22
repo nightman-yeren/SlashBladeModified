@@ -6,6 +6,7 @@ import mods.flammpfeil_yuruni.slashblade.capability.inputstate.CapabilityInputSt
 import mods.flammpfeil_yuruni.slashblade.client.renderer.model.BladeModelManager;
 import mods.flammpfeil_yuruni.slashblade.client.renderer.model.obj.WavefrontObject;
 import mods.flammpfeil_yuruni.slashblade.client.renderer.util.BladeRenderState;
+import mods.flammpfeil_yuruni.slashblade.gamerules.SlashBladeHitRule;
 import mods.flammpfeil_yuruni.slashblade.item.ItemSlashBlade;
 import mods.flammpfeil_yuruni.slashblade.util.InputCommand;
 import net.minecraft.client.Minecraft;
@@ -17,6 +18,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -72,24 +74,14 @@ public class LockonCircleRender {
             }
         }
         //Hit rule check
-        if (SlashBlade.hitRuleMemory.isHitRuleEnabled()) {
-            boolean hitPlayer = SlashBlade.hitRuleMemory.isHitRulePlayer();
-            if (!hitPlayer) {
-                if (livingEntity instanceof Player) {
-                    return;
-                }
+        if (!SlashBladeHitRule.isEnabled(SlashBladeHitRule.SLASHBLADE_HITPLAYER)) {
+            if (livingEntity instanceof Player) {
+                return;
             }
-            boolean hitPassive = SlashBlade.hitRuleMemory.isHitRulePassive();
-            if (!hitPassive) {
-                if (livingEntity instanceof Animal) {
-                    return;
-                }
-            }
-            boolean hitAggressive = SlashBlade.hitRuleMemory.isHitRuleAggressive();
-            if (!hitAggressive) {
-                if (livingEntity instanceof Monster) {
-                    return;
-                }
+        }
+        if (!SlashBladeHitRule.isEnabled(SlashBladeHitRule.SLASHBLADE_HITPASSIVE)) {
+            if (livingEntity instanceof Animal) {
+                return;
             }
         }
         //Line of sight check

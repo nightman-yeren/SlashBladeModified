@@ -4,6 +4,7 @@ import mods.flammpfeil_yuruni.slashblade.SlashBlade;
 import mods.flammpfeil_yuruni.slashblade.capability.inputstate.CapabilityInputState;
 import mods.flammpfeil_yuruni.slashblade.entity.IShootable;
 import mods.flammpfeil_yuruni.slashblade.event.InputCommandEvent;
+import mods.flammpfeil_yuruni.slashblade.gamerules.SlashBladeHitRule;
 import mods.flammpfeil_yuruni.slashblade.item.ItemSlashBlade;
 import mods.flammpfeil_yuruni.slashblade.util.InputCommand;
 import mods.flammpfeil_yuruni.slashblade.util.RayTraceHelper;
@@ -19,6 +20,8 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.HitResult;
@@ -108,13 +111,8 @@ public class LockOnManager {
                             foundEntity = Optional.empty();
                         }
                     }
-                    if (SlashBlade.hitRuleMemory.isHitRuleEnabled()) {
-                        if (foundEntity.get() instanceof Animal && !SlashBlade.hitRuleMemory.isHitRulePassive()) {
-                            foundEntity = Optional.empty();
-                        }
-                        if (foundEntity.get() instanceof Monster && !SlashBlade.hitRuleMemory.isHitRuleAggressive()) {
-                            foundEntity = Optional.empty();
-                        }
+                    if (foundEntity.get() instanceof Animal && !SlashBladeHitRule.isEnabled(SlashBladeHitRule.SLASHBLADE_HITPASSIVE)) {
+                        foundEntity = Optional.empty();
                     }
                 }
             }
@@ -155,53 +153,46 @@ public class LockOnManager {
                 }
             }
             //Hit rule check
-            if (SlashBlade.hitRuleMemory.isHitRuleEnabled()) {
-                if (target instanceof Animal && !SlashBlade.hitRuleMemory.isHitRulePassive()) {
-                    target = null;
-                }
-                if (target instanceof Monster && !SlashBlade.hitRuleMemory.isHitRuleAggressive()) {
-                    target = null;
-                }
+            if (target instanceof Animal && !SlashBladeHitRule.isEnabled(SlashBladeHitRule.SLASHBLADE_HITPASSIVE)) {
+                target = null;
             }
             if (target == null) return;
             if (!player.hasLineOfSight(target)) return;
             if (target instanceof ItemEntity) return;
             if(!target.isAlive()) return;
 
-            LivingEntity entity = player;
-
-            if(!entity.level().isClientSide) return;
-            if(!entity.getCapability(CapabilityInputState.INPUT_STATE).filter(input->input.getCommands().contains(InputCommand.SNEAK)).isPresent()) return;
+            if(!player.level().isClientSide) return;
+            if(!player.getCapability(CapabilityInputState.INPUT_STATE).filter(input->input.getCommands().contains(InputCommand.SNEAK)).isPresent()) return;
 
 
             float partialTicks = Minecraft.getInstance().getFrameTime();
 
-            float oldYawHead = entity.yHeadRot;
-            float oldYawOffset = entity.yBodyRot;
-            float oldPitch = entity.getXRot();
-            float oldYaw = entity.getYRot();
+            float oldYawHead = player.yHeadRot;
+            float oldYawOffset = player.yBodyRot;
+            float oldPitch = player.getXRot();
+            float oldYaw = player.getYRot();
 
-            float prevYawHead = entity.yHeadRotO;
-            float prevYawOffset = entity.yBodyRotO;
-            float prevYaw = entity.yRotO;
-            float prevPitch = entity.xRotO;
+            float prevYawHead = player.yHeadRotO;
+            float prevYawOffset = player.yBodyRotO;
+            float prevYaw = player.yRotO;
+            float prevPitch = player.xRotO;
 
-            entity.lookAt(EntityAnchorArgument.Anchor.EYES, target.position().add(0,target.getEyeHeight() / 2.0,0));
+            player.lookAt(EntityAnchorArgument.Anchor.EYES, target.position().add(0,target.getEyeHeight() / 2.0,0));
 
             float step = 0.125f * partialTicks;
 
-            step *= Math.min(1.0f ,Math.abs(Mth.wrapDegrees(oldYaw - entity.yHeadRot) * 0.5));
+            step *= (float) Math.min(1.0f ,Math.abs(Mth.wrapDegrees(oldYaw - player.yHeadRot) * 0.5));
 
-            entity.setXRot(Mth.rotLerp(step,oldPitch ,entity.getXRot()));
-            entity.setYRot(Mth.rotLerp(step, oldYaw , entity.getYRot()));
-            entity.setYHeadRot(Mth.rotLerp(step, oldYawHead , entity.getYHeadRot()));
+            player.setXRot(Mth.rotLerp(step,oldPitch , player.getXRot()));
+            player.setYRot(Mth.rotLerp(step, oldYaw , player.getYRot()));
+            player.setYHeadRot(Mth.rotLerp(step, oldYawHead , player.getYHeadRot()));
 
-            entity.yBodyRot = oldYawOffset;
+            player.yBodyRot = oldYawOffset;
 
-            entity.yBodyRotO = prevYawOffset;
-            entity.yHeadRotO = prevYawHead;
-            entity.yRotO = prevYaw;
-            entity.xRotO = prevPitch;
+            player.yBodyRotO = prevYawOffset;
+            player.yHeadRotO = prevYawHead;
+            player.yRotO = prevYaw;
+            player.xRotO = prevPitch;
         });
     }
 

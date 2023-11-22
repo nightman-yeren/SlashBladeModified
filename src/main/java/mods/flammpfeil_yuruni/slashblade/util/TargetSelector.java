@@ -4,7 +4,9 @@ import com.google.common.collect.Lists;
 import mods.flammpfeil_yuruni.slashblade.SlashBlade;
 import mods.flammpfeil_yuruni.slashblade.entity.IShootable;
 import mods.flammpfeil_yuruni.slashblade.event.InputCommandEvent;
+import mods.flammpfeil_yuruni.slashblade.gamerules.SlashBladeHitRule;
 import mods.flammpfeil_yuruni.slashblade.item.ItemSlashBlade;
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.decoration.ArmorStand;
@@ -17,6 +19,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.Level;
@@ -87,34 +90,21 @@ public class TargetSelector {
                     return false;
 
             if (livingentity instanceof Enemy)
-                if (SlashBlade.hitRuleMemory.isHitRuleEnabled())
-                    return SlashBlade.hitRuleMemory.isHitRuleAggressive();
-                else
-                    return true;
+                return true;
 
             if (livingentity.isCurrentlyGlowing())
                 return true;
 
             if (livingentity instanceof Player)
-                if (isPlayerInList(SlashBlade.hitRuleMemory.getCurrentPlayer(), (Player)livingentity)) return false;
-
-                else if (SlashBlade.hitRuleMemory.isHitRuleEnabled())
-                    return SlashBlade.hitRuleMemory.isHitRulePlayer();
-                else
-                    return true;
+                //if (isPlayerInList(SlashBlade.hitRuleMemory.getCurrentPlayer(), (Player)livingentity)) return false;
+                return SlashBladeHitRule.isEnabled(SlashBladeHitRule.SLASHBLADE_HITPLAYER);
 
             if (livingentity instanceof Wolf)
                 if (((Wolf) livingentity).isAngry()/*isAngry()*/)
-                    if (SlashBlade.hitRuleMemory.isHitRuleEnabled())
-                        return SlashBlade.hitRuleMemory.isHitRulePassive();
-                    else
-                        return true;
+                    return SlashBladeHitRule.isEnabled(SlashBladeHitRule.SLASHBLADE_HITPASSIVE);
 
             if (livingentity instanceof Animal)
-                if (SlashBlade.hitRuleMemory.isHitRuleEnabled())
-                    return SlashBlade.hitRuleMemory.isHitRulePassive();
-                else
-                    return true;
+                return SlashBladeHitRule.isEnabled(SlashBladeHitRule.SLASHBLADE_HITPASSIVE);
 
             if (livingentity.getTags().contains(AttackableTag)){
                 livingentity.removeTag(AttackableTag);
