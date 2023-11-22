@@ -41,8 +41,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 
-import static mods.flammpfeil_yuruni.slashblade.util.ExcludedPlayers.isPlayerInList;
-
 public class TargetSelector {
     static public final TargetingConditions lockon = (TargetingConditions.forCombat())
             .range(12.0D)

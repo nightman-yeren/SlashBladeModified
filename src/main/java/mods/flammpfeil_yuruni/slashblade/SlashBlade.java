@@ -15,7 +15,7 @@ import mods.flammpfeil_yuruni.slashblade.client.renderer.model.BladeMotionManage
 import mods.flammpfeil_yuruni.slashblade.entity.*;
 import mods.flammpfeil_yuruni.slashblade.event.*;
 import mods.flammpfeil_yuruni.slashblade.event.client.AdvancementsRecipeRenderer;
-import mods.flammpfeil_yuruni.slashblade.event.client.LocalPlayerDataHandler;
+import mods.flammpfeil_yuruni.slashblade.event.client.PlayerConnection;
 import mods.flammpfeil_yuruni.slashblade.event.client.SneakingMotionCanceller;
 import mods.flammpfeil_yuruni.slashblade.event.client.UserPoseOverrider;
 import mods.flammpfeil_yuruni.slashblade.gamerules.SlashBladeHitRule;
@@ -24,6 +24,7 @@ import mods.flammpfeil_yuruni.slashblade.item.ItemSlashBlade;
 import mods.flammpfeil_yuruni.slashblade.item.ItemSoulActivated;
 import mods.flammpfeil_yuruni.slashblade.item.ItemTierSlashBlade;
 import mods.flammpfeil_yuruni.slashblade.init.SBItems;
+import mods.flammpfeil_yuruni.slashblade.memory.ServerMemory;
 import mods.flammpfeil_yuruni.slashblade.network.NetworkManager;
 import mods.flammpfeil_yuruni.slashblade.optional.playerAnim.PlayerAnimationOverrider;
 import mods.flammpfeil_yuruni.slashblade.util.TargetSelector;
@@ -86,6 +87,8 @@ import java.util.stream.Collectors;
 public class SlashBlade
 {
     public static final String modid = "slashblade";
+
+    public static ServerMemory serverMemory = ServerMemory.getInstance();
 
     public static final CreativeModeTab SLASHBLADE = CreativeModeTab.builder()
             .title(Component.translatable(modid))
@@ -205,7 +208,7 @@ public class SlashBlade
         //Extra added by Yuruni
         CommandsHandler.getInstance().register();
         SlashBladeHitRule.init();
-        LocalPlayerDataHandler.getInstance().register();
+        PlayerConnection.getInstance().register();
     }
 
     @OnlyIn(Dist.CLIENT)
