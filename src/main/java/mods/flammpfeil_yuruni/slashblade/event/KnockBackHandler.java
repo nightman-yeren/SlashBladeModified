@@ -47,7 +47,7 @@ public class KnockBackHandler {
         //z = falldistance factor
         target.fallDistance += factor.z;
 
-        //movement factor is resistable
+        //movement factor is resistible
         if ((target.getRandom().nextDouble() < target.getAttribute(Attributes.KNOCKBACK_RESISTANCE).getValue()))
             return;
 

@@ -13,6 +13,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.animal.Animal;
@@ -106,6 +107,7 @@ public class LockOnManager {
                     //if (foundEntity.get().look)
                     if (!player.hasLineOfSight(foundEntity.get())) foundEntity = Optional.empty();
                     if (foundEntity.get() instanceof ItemEntity) foundEntity = Optional.empty();
+                    if (foundEntity.get() instanceof ExperienceOrb) foundEntity = Optional.empty();
                     if (foundEntity.get() instanceof Player) {
                         if (isPlayerInList(player, (Player) foundEntity.get()) || !SlashBladeHitRule.isEnabled(foundEntity.get().level(), SlashBladeHitRule.SLASHBLADE_HITPLAYER)) {
                             foundEntity = Optional.empty();
@@ -162,6 +164,7 @@ public class LockOnManager {
             if (target == null) return;
             if (!player.hasLineOfSight(target)) return;
             if (target instanceof ItemEntity) return;
+            if (target instanceof ExperienceOrb) return;
             if(!target.isAlive()) return;
 
             if(!player.level().isClientSide) return;
