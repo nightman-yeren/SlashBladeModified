@@ -95,14 +95,14 @@ public class TargetSelector {
 
             if (livingentity instanceof Player)
                 //if (isPlayerInList(SlashBlade.hitRuleMemory.getCurrentPlayer(), (Player)livingentity)) return false;
-                return SlashBladeHitRule.isEnabled(SlashBladeHitRule.SLASHBLADE_HITPLAYER);
+                return SlashBladeHitRule.isEnabled(livingentity.level(), SlashBladeHitRule.SLASHBLADE_HITPLAYER);
 
             if (livingentity instanceof Wolf)
                 if (((Wolf) livingentity).isAngry()/*isAngry()*/)
-                    return SlashBladeHitRule.isEnabled(SlashBladeHitRule.SLASHBLADE_HITPASSIVE);
+                    return SlashBladeHitRule.isEnabled(livingentity.level(), SlashBladeHitRule.SLASHBLADE_HITPASSIVE);
 
             if (livingentity instanceof Animal)
-                return SlashBladeHitRule.isEnabled(SlashBladeHitRule.SLASHBLADE_HITPASSIVE);
+                return SlashBladeHitRule.isEnabled(livingentity.level(), SlashBladeHitRule.SLASHBLADE_HITPASSIVE);
 
             if (livingentity.getTags().contains(AttackableTag)){
                 livingentity.removeTag(AttackableTag);

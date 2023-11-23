@@ -21,21 +21,12 @@ public class SlashBladeHitRule extends GameRules {
         SLASHBLADE_HITPLAYER = GameRules.register("sBladeHitPlayer", GameRules.Category.PLAYER, GameRules.BooleanValue.create(true));;
     }
 
-    public static boolean isEnabled(Key<BooleanValue> key) {
-        Minecraft mc = Minecraft.getInstance();
-        //if (mc.isSingleplayer()) {
-            //return mc.getSingleplayerServer().getGameRules().getRule(key).get();
-        //} else {
-
-        //}
-        //return world.getGameRules().getBoolean(key);
-        //^^^ Code I could borrow if something went wrong
-        return SlashBlade.serverMemory.getCurrentServer().getGameRules().getBoolean(key);
-    }
-
     public static boolean isEnabled(LevelAccessor world, Key<BooleanValue> key) {
         if (!(world instanceof Level)) {
             return false;
+        }
+        if (SlashBlade.serverMemory.getCurrentServer() == null) {
+            return ((Level) world).getGameRules().getRule(key).get();
         }
         return SlashBlade.serverMemory.getCurrentServer().getGameRules().getBoolean(key);
         //Code I can borrow if something went wrong

@@ -74,12 +74,12 @@ public class LockonCircleRender {
             }
         }
         //Hit rule check
-        if (!SlashBladeHitRule.isEnabled(SlashBladeHitRule.SLASHBLADE_HITPLAYER)) {
+        if (!SlashBladeHitRule.isEnabled(livingEntity.level(), SlashBladeHitRule.SLASHBLADE_HITPLAYER)) {
             if (livingEntity instanceof Player) {
                 return;
             }
         }
-        if (!SlashBladeHitRule.isEnabled(SlashBladeHitRule.SLASHBLADE_HITPASSIVE)) {
+        if (!SlashBladeHitRule.isEnabled(livingEntity.level(), SlashBladeHitRule.SLASHBLADE_HITPASSIVE)) {
             if (livingEntity instanceof Animal) {
                 return;
             }

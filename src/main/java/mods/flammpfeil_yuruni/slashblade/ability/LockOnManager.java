@@ -111,7 +111,7 @@ public class LockOnManager {
                             foundEntity = Optional.empty();
                         }
                     }
-                    if (foundEntity.get() instanceof Animal && !SlashBladeHitRule.isEnabled(SlashBladeHitRule.SLASHBLADE_HITPASSIVE)) {
+                    if (foundEntity.get() instanceof Animal && !SlashBladeHitRule.isEnabled(foundEntity.get().level(), SlashBladeHitRule.SLASHBLADE_HITPASSIVE)) {
                         foundEntity = Optional.empty();
                     }
                 }
@@ -153,7 +153,7 @@ public class LockOnManager {
                 }
             }
             //Hit rule check
-            if (target instanceof Animal && !SlashBladeHitRule.isEnabled(SlashBladeHitRule.SLASHBLADE_HITPASSIVE)) {
+            if (target instanceof Animal && !SlashBladeHitRule.isEnabled(target.level(), SlashBladeHitRule.SLASHBLADE_HITPASSIVE)) {
                 target = null;
             }
             if (target == null) return;
