@@ -107,7 +107,7 @@ public class LockOnManager {
                     if (!player.hasLineOfSight(foundEntity.get())) foundEntity = Optional.empty();
                     if (foundEntity.get() instanceof ItemEntity) foundEntity = Optional.empty();
                     if (foundEntity.get() instanceof Player) {
-                        if (isPlayerInList(player, (Player) foundEntity.get())) {
+                        if (isPlayerInList(player, (Player) foundEntity.get()) || !SlashBladeHitRule.isEnabled(foundEntity.get().level(), SlashBladeHitRule.SLASHBLADE_HITPLAYER)) {
                             foundEntity = Optional.empty();
                         }
                     }
@@ -154,6 +154,9 @@ public class LockOnManager {
             }
             //Hit rule check
             if (target instanceof Animal && !SlashBladeHitRule.isEnabled(target.level(), SlashBladeHitRule.SLASHBLADE_HITPASSIVE)) {
+                target = null;
+            }
+            if (target instanceof Player && !SlashBladeHitRule.isEnabled(target.level(), SlashBladeHitRule.SLASHBLADE_HITPLAYER)) {
                 target = null;
             }
             if (target == null) return;
