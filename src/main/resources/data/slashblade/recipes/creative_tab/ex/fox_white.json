@@ -31,6 +31,7 @@
                         "TextureName": "slashblade:model/named/sange/white.png",
                         "ModelName": "slashblade:model/named/sange/sange.obj",
                         "baseAttackModifier": 7.0,
+                        "sourceBaseAttackModifier": 7.0,
                         "StandbyRenderType": 0
                     }
                 }

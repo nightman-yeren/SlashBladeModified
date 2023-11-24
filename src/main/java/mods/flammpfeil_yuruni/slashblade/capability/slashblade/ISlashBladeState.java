@@ -112,6 +112,9 @@ public interface ISlashBladeState {
     float getBaseAttackModifier();
 	void setBaseAttackModifier(float baseAttackModifier);
 
+    float getSourceBaseAttackModifier();
+    void setSourceBaseAttackModifier(float sourceBaseAttackModifier);
+
     int getKillCount();
 	void setKillCount(int killCount);
 

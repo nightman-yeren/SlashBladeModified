@@ -47,6 +47,7 @@
                                 "TextureName": "slashblade:model/named/muramasa/muramasa.png",
                                 "ModelName": "slashblade:model/named/muramasa/muramasa.obj",
                                 "baseAttackModifier": 8.0,
+                                "sourceBaseAttackModifier": 8.0,
                                 "StandbyRenderType": 0
                             }
                         }

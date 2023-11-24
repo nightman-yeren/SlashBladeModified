@@ -1,6 +1,7 @@
 package mods.flammpfeil_yuruni.slashblade.event;
 
 import mods.flammpfeil_yuruni.slashblade.SlashBlade;
+import mods.flammpfeil_yuruni.slashblade.capability.slashblade.ISlashBladeState;
 import mods.flammpfeil_yuruni.slashblade.item.ItemSlashBlade;
 import mods.flammpfeil_yuruni.slashblade.util.AdvancementHelper;
 import net.minecraft.server.level.ServerPlayer;
@@ -14,6 +15,10 @@ import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.entity.player.AnvilRepairEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Optional;
 
 public class RefineHandler {
     private static final class SingletonHolder {
@@ -58,6 +63,17 @@ public class RefineHandler {
                 s.setDamage(s.getDamage() - (0.2f + 0.05f * level));
                 if(s.getRefine() < refineLimit)
                     s.setRefine(s.getRefine() + 1);
+                //Round attack damage
+                float attackToAdd = ((float) s.getRefine() / 100);
+                BigDecimal attackString = new BigDecimal(String.valueOf(attackToAdd));
+                BigDecimal attackStringRounded;
+                if (attackString.setScale(1, RoundingMode.DOWN).floatValue() >= 5F) {
+                    attackStringRounded = new BigDecimal("5").setScale(1, RoundingMode.DOWN);
+                    s.setRefine(500);
+                } else {
+                    attackStringRounded = attackString.setScale(1, RoundingMode.DOWN);
+                }
+                s.setBaseAttackModifier(s.getSourceBaseAttackModifier() + attackStringRounded.floatValue());
                 return s.getDamage();
             }).orElse(0f);
 
@@ -71,6 +87,10 @@ public class RefineHandler {
     }
 
     static private final ResourceLocation REFINE = new ResourceLocation(SlashBlade.modid, "tips/refine");
+
+    static private final ResourceLocation SHARPED = new ResourceLocation(SlashBlade.modid, "tips/sharped");
+
+    static private final ResourceLocation WHYTHEFUCKWOULDYOUWANTTOUNLOCKTHISACHIEVEMENT = new ResourceLocation(SlashBlade.modid, "tips/final");
 
     static private final TagKey<Item> soul = ItemTags.create(new ResourceLocation("slashblade","proudsouls"));
 
@@ -97,6 +117,13 @@ public class RefineHandler {
         if(before < after)
             AdvancementHelper.grantCriterion((ServerPlayer) event.getEntity(), REFINE);
 
+        if (after >= 100) {
+            AdvancementHelper.grantCriterion((ServerPlayer) event.getEntity(), SHARPED);
+        }
+
+        if (after >= 500) {
+            AdvancementHelper.grantCriterion((ServerPlayer) event.getEntity(), WHYTHEFUCKWOULDYOUWANTTOUNLOCKTHISACHIEVEMENT);
+        }
     }
 
 }

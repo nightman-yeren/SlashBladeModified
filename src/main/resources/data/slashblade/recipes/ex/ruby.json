@@ -47,6 +47,7 @@
                                 "TextureName": "slashblade:model/ruby.png",
                                 "ModelName": "slashblade:model/named/yamato.obj",
                                 "baseAttackModifier": 6.0,
+                                "sourceBaseAttackModifier": 6.0,
                                 "StandbyRenderType": 0
                             }
                         }

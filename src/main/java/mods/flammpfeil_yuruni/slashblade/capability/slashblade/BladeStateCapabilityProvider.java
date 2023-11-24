@@ -61,6 +61,7 @@ public class BladeStateCapabilityProvider implements ICapabilityProvider, INBTSe
             tag.putBoolean("isSealed", instance.isSealed());
 
             tag.putFloat("baseAttackModifier", instance.getBaseAttackModifier());
+            tag.putFloat("sourceBaseAttackModifier", instance.getSourceBaseAttackModifier());
 
             tag.putInt("killCount", instance.getKillCount());
             tag.putInt("RepairCounter", instance.getRefine());
@@ -142,6 +143,7 @@ public class BladeStateCapabilityProvider implements ICapabilityProvider, INBTSe
             instance.setSealed(tag.getBoolean("isSealed"));
 
             instance.setBaseAttackModifier(tag.getFloat("baseAttackModifier"));
+            instance.setSourceBaseAttackModifier(tag.getFloat("sourceBaseAttackModifier"));
 
             instance.setKillCount(tag.getInt("killCount"));
             instance.setRefine(tag.getInt("RepairCounter"));

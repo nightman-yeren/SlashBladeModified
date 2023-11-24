@@ -27,6 +27,7 @@
                         "SpecialAttackType": "none",
                         "TextureName": "slashblade:model/silverbamboo.png",
                         "baseAttackModifier": 1.5,
+                        "sourceBaseAttackModifier": 1.5,
                         "StandbyRenderType": 0
                     }
                 }

@@ -43,6 +43,7 @@
                                 "SpecialAttackType": "none",
                                 "TextureName": "slashblade:model/bamboo.png",
                                 "baseAttackModifier": 1.0,
+                                "sourceBaseAttackModifier": 1.0,
                                 "StandbyRenderType": 0
                             }
                         }

@@ -60,6 +60,7 @@ public class SlashBladeState implements ISlashBladeState{
     protected boolean isSealed; //isSealed
 
     protected float baseAttackModifier; //BaseAttackModifier
+    protected float sourceBaseAttackModifier; //SourceBaseAttackModifier
 
     protected int killCount; //killCount
     protected int refine; //RepairCounter
@@ -232,6 +233,16 @@ public class SlashBladeState implements ISlashBladeState{
     @Override
     public void setBaseAttackModifier(float baseAttackModifier) {
         this.baseAttackModifier = baseAttackModifier;
+    }
+
+    @Override
+    public float getSourceBaseAttackModifier() {
+        return this.sourceBaseAttackModifier;
+    }
+
+    @Override
+    public void setSourceBaseAttackModifier(float sourceBaseAttackModifier) {
+        this.sourceBaseAttackModifier = sourceBaseAttackModifier;
     }
 
     @Override

@@ -28,6 +28,7 @@
                         "TextureName": "slashblade:model/blade.png",
                         "ModelName": "slashblade:model/named/yamato.obj",
                         "baseAttackModifier": 4.0,
+                        "sourceBaseAttackModifier": 4.0,
                         "StandbyRenderType": 0
                     }
                 }

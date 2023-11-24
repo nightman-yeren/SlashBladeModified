@@ -27,6 +27,7 @@
                         "SpecialAttackType": "none",
                         "TextureName": "slashblade:model/white.png",
                         "baseAttackModifier": 2.0,
+                        "sourceBaseAttackModifier": 2.0,
                         "StandbyRenderType": 0
                     }
                 }

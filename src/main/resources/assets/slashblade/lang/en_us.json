@@ -20,6 +20,8 @@
   
   "item.slashblade.slashblade": "Anonymity -Nameless-",
   "item.slashblade.slashblade.desc": "Cannibalism maintenance\nA pure vessel.",
+  "item.slashblade.yamato": "YaMAToOOoO!!!",
+  "item.slashblade.yamato.desc": "ITS THE YAMATOOOO",
   "item.slashblade.simple.wood": "Anonymity -Wood-",
   "item.slashblade.simple.wood.desc": "Wooden sword with scabbard.",
   "item.slashblade.simple.white": "Sharpness -White-",
@@ -86,6 +88,12 @@
 
   "adv.slashblade.refine":"Blade Refine",
   "adv.slashblade.refine.desc":"Blades increase their potential each time they are refined.",
+
+  "adv.slashblade.sharped": "Serious Determination",
+  "adv.slashblade.sharped.desc": "You have no life. Take this one base attack damage buff.\nRefine a blade 100 times",
+
+  "adv.slashblade.final": "You did it... But at what cost?",
+  "adv.slashblade.final.desc": "Sacrifices has been made, you've achieved world domination. But why?\nRefine a blade 500 times",
 
   "adv.slashblade.white_broken":"Broken Edge",
   "adv.slashblade.white_broken.desc":"Reforge!",

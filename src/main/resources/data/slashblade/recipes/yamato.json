@@ -27,6 +27,7 @@
                         "TextureName": "slashblade:model/named/yamato.png",
                         "ModelName": "slashblade:model/named/yamato.obj",
                         "baseAttackModifier": 9.0,
+                        "sourceBaseAttackModifier": 9.0,
                         "isSealed": 0,
                         "isNoScabbard": 0,
                         "isDestructable": 0,
