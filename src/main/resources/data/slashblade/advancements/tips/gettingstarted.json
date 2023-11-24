@@ -1,0 +1,21 @@
+{
+  "display": {
+    "title": {
+      "translate": "adv.slashblade.startedRefine"
+    },
+    "description": {
+      "translate": "adv.slashblade.startedRefine.desc"
+    },
+    "icon": {
+      "item": "minecraft:iron_block",
+      "nbt": "{Crafting:\"slashblade:anvilcrafting/sharped\"}"
+    },
+    "frame": "challenge"
+  },
+  "parent": "slashblade:tips/reforge",
+  "criteria": {
+    "customtrigger": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

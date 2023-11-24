@@ -88,6 +88,8 @@ public class RefineHandler {
 
     static private final ResourceLocation REFINE = new ResourceLocation(SlashBlade.modid, "tips/refine");
 
+    static private final ResourceLocation STARTINGGRIND = new ResourceLocation(SlashBlade.modid, "tips/gettingstarted");
+
     static private final ResourceLocation SHARPED = new ResourceLocation(SlashBlade.modid, "tips/sharped");
 
     static private final ResourceLocation WHYTHEFUCKWOULDYOUWANTTOUNLOCKTHISACHIEVEMENT = new ResourceLocation(SlashBlade.modid, "tips/final");
@@ -116,6 +118,10 @@ public class RefineHandler {
 
         if(before < after)
             AdvancementHelper.grantCriterion((ServerPlayer) event.getEntity(), REFINE);
+
+        if (after >= 10) {
+            AdvancementHelper.grantCriterion((ServerPlayer) event.getEntity(), STARTINGGRIND);
+        }
 
         if (after >= 100) {
             AdvancementHelper.grantCriterion((ServerPlayer) event.getEntity(), SHARPED);

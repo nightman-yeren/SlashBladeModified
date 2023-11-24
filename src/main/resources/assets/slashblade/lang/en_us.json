@@ -89,11 +89,14 @@
   "adv.slashblade.refine":"Blade Refine",
   "adv.slashblade.refine.desc":"Blades increase their potential each time they are refined.",
 
-  "adv.slashblade.sharped": "Serious Determination",
-  "adv.slashblade.sharped.desc": "You have no life. Take this one base attack damage buff.\nRefine a blade 100 times",
+  "adv.slashblade.startedRefine": "First Step to Grinding",
+  "adv.slashblade.startedRefine.desc": "Good luck!\nReceive a 0.1 attack bonus.",
+
+  "adv.slashblade.sharped": "No wifer",
+  "adv.slashblade.sharped.desc": "You have no life. Take this one base attack damage buff.\nGo touch grass bro.\nRefine a blade 100 times",
 
   "adv.slashblade.final": "You did it... But at what cost?",
-  "adv.slashblade.final.desc": "Sacrifices has been made, you've achieved world domination. But why?\nRefine a blade 500 times",
+  "adv.slashblade.final.desc": "THE FUCK IS WRONG WITH YOU? You need to re-think your life choices\nRefine a blade 500 times",
 
   "adv.slashblade.white_broken":"Broken Edge",
   "adv.slashblade.white_broken.desc":"Reforge!",
