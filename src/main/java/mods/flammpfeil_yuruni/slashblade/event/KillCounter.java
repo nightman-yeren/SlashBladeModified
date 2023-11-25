@@ -1,13 +1,26 @@
 package mods.flammpfeil_yuruni.slashblade.event;
 
+import mods.flammpfeil_yuruni.slashblade.init.SBItems;
 import mods.flammpfeil_yuruni.slashblade.item.ItemSlashBlade;
+import net.minecraft.commands.arguments.item.ItemArgument;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.registries.RegistryObject;
 
 public class KillCounter {
     private static final class SingletonHolder {
@@ -34,5 +47,8 @@ public class KillCounter {
         stack.getCapability(ItemSlashBlade.BLADESTATE).ifPresent(state->{
             state.setKillCount(state.getKillCount() + 1);
         });
+        if (event.getEntity() instanceof Monster && Math.round(Math.random() * (5 - Math.round((float) stack.getEnchantmentLevel(Enchantments.MOB_LOOTING) / 2))) == 1) {
+            ((Player) trueSource).addItem(new ItemStack(SBItems.proudsoul_tiny, stack.getEnchantmentLevel(Enchantments.MOB_LOOTING) <= 0 ? 0 : Math.round((float)stack.getEnchantmentLevel(Enchantments.MOB_LOOTING) / 2)));
+        }
     }
 }
