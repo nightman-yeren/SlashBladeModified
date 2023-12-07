@@ -1,15 +1,15 @@
 package mods.flammpfeil_yuruni.slashblade.event;
 
 import mods.flammpfeil_yuruni.slashblade.SlashBlade;
-import mods.flammpfeil_yuruni.slashblade.capability.slashblade.ISlashBladeState;
 import mods.flammpfeil_yuruni.slashblade.item.ItemSlashBlade;
 import mods.flammpfeil_yuruni.slashblade.util.AdvancementHelper;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.entity.player.AnvilRepairEvent;
@@ -18,7 +18,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Optional;
 
 public class RefineHandler {
     private static final class SingletonHolder {
@@ -45,7 +44,12 @@ public class RefineHandler {
 
         boolean isRepairable = base.getItem().isValidRepairItem(base,material);
 
-        if(!isRepairable) return;
+        if (!isRepairable) {
+            //Including the nether star
+            if (!material.is(Items.NETHER_STAR)) {
+                return;
+            }
+        }
 
         int level = material.getEnchantmentValue();
 
@@ -62,14 +66,25 @@ public class RefineHandler {
             float damage = result.getCapability(ItemSlashBlade.BLADESTATE).map(s->{
                 s.setDamage(s.getDamage() - (0.2f + 0.05f * level));
                 if(s.getRefine() < refineLimit)
-                    s.setRefine(s.getRefine() + 1);
+                    if (!(s.getRefine() == 500)) {
+                        s.setRefine(s.getRefine() + 1);
+                    }
                 //Round attack damage
                 float attackToAdd = ((float) s.getRefine() / 100);
                 BigDecimal attackString = new BigDecimal(String.valueOf(attackToAdd));
                 BigDecimal attackStringRounded;
-                if (attackString.setScale(1, RoundingMode.DOWN).floatValue() >= 5F) {
-                    attackStringRounded = new BigDecimal("5").setScale(1, RoundingMode.DOWN);
-                    s.setRefine(500);
+                if (attackString.setScale(1, RoundingMode.DOWN).floatValue() == 5F) {//If base attack damage is increased 5 times
+                    //Check if the refine item is a nether star
+                    if (material.is(Items.NETHER_STAR)) {
+                        attackStringRounded = new BigDecimal("5").setScale(1, RoundingMode.DOWN);
+                        s.setSourceBaseAttackModifier(s.getSourceBaseAttackModifier() + 1);
+                        s.setRefine(501);
+                    } else {
+                        attackStringRounded = new BigDecimal("5").setScale(1, RoundingMode.DOWN);
+                    }
+                } else if (attackString.setScale(1, RoundingMode.DOWN).floatValue() >= 10F) {
+                    attackStringRounded = new BigDecimal("10").setScale(1, RoundingMode.DOWN);
+                    s.setRefine(1000);
                 } else {
                     attackStringRounded = attackString.setScale(1, RoundingMode.DOWN);
                 }
@@ -92,6 +107,8 @@ public class RefineHandler {
 
     static private final ResourceLocation SHARPED = new ResourceLocation(SlashBlade.modid, "tips/sharped");
 
+    static private final ResourceLocation OVERSHARP = new ResourceLocation(SlashBlade.modid, "tips/unlockedpotential");
+
     static private final ResourceLocation WHYTHEFUCKWOULDYOUWANTTOUNLOCKTHISACHIEVEMENT = new ResourceLocation(SlashBlade.modid, "tips/final");
 
     static private final TagKey<Item> soul = ItemTags.create(new ResourceLocation("slashblade","proudsouls"));
@@ -111,7 +128,12 @@ public class RefineHandler {
 
         boolean isRepairable = base.getItem().isValidRepairItem(base,material);
 
-        if(!isRepairable) return;
+        if (!isRepairable) {
+            //Including the nether star
+            if (!material.is(Items.NETHER_STAR)) {
+                return;
+            }
+        }
 
         int before = base.getCapability(ItemSlashBlade.BLADESTATE).map(s->s.getRefine()).orElse(0);
         int after = output.getCapability(ItemSlashBlade.BLADESTATE).map(s->s.getRefine()).orElse(0);
@@ -129,6 +151,10 @@ public class RefineHandler {
 
         if (after >= 500) {
             AdvancementHelper.grantCriterion((ServerPlayer) event.getEntity(), WHYTHEFUCKWOULDYOUWANTTOUNLOCKTHISACHIEVEMENT);
+        }
+
+        if (after >= 501) {
+            AdvancementHelper.grantCriterion((ServerPlayer) event.getEntity(), OVERSHARP);
         }
     }
 

@@ -1,0 +1,21 @@
+{
+  "display": {
+    "title": {
+      "translate": "adv.slashblade.overRefine"
+    },
+    "description": {
+      "translate": "adv.slashblade.overRefine.desc"
+    },
+    "icon": {
+      "item": "minecraft:diamond_block",
+      "nbt": "{Crafting:\"slashblade:anvilcrafting/sharped\"}"
+    },
+    "frame": "challenge"
+  },
+  "parent": "slashblade:tips/reforge",
+  "criteria": {
+    "customtrigger": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

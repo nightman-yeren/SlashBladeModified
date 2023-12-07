@@ -36,13 +36,6 @@ public class CommandsHandler {
         if (!event.getOriginal().level().isClientSide()) {
             event.getEntity().getPersistentData().putString(SlashBlade.modid + "excludedPlayers",
                     event.getOriginal().getPersistentData().getString(SlashBlade.modid + "excludedPlayers"));
-            //Hit rules
-            event.getEntity().getPersistentData().putBoolean(SlashBlade.modid + "hitPlayer",
-                    event.getOriginal().getPersistentData().getBoolean(SlashBlade.modid + "hitPlayer"));
-            event.getEntity().getPersistentData().putBoolean(SlashBlade.modid + "hitPassive",
-                    event.getOriginal().getPersistentData().getBoolean(SlashBlade.modid + "hitPassive"));
-            event.getEntity().getPersistentData().putBoolean(SlashBlade.modid + "hitAggressive",
-                    event.getOriginal().getPersistentData().getBoolean(SlashBlade.modid + "hitAggressive"));
         }
     }
 

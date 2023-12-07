@@ -92,11 +92,14 @@
   "adv.slashblade.startedRefine": "First Step to Grinding",
   "adv.slashblade.startedRefine.desc": "Good luck!\nReceive a 0.1 attack bonus.",
 
-  "adv.slashblade.sharped": "No wifer",
-  "adv.slashblade.sharped.desc": "You have no life. Take this one base attack damage buff.\nGo touch grass bro.\nRefine a blade 100 times",
+  "adv.slashblade.sharped": "Refine Master",
+  "adv.slashblade.sharped.desc": "That's grinding.\nRefine a blade 100 times",
 
-  "adv.slashblade.final": "You did it... But at what cost?",
-  "adv.slashblade.final.desc": "THE FUCK IS WRONG WITH YOU? You need to re-think your life choices\nRefine a blade 500 times",
+  "adv.slashblade.final": "The Full Refine",
+  "adv.slashblade.final.desc": "You've grinded so hard.\nRefine a blade 500 times",
+
+  "adv.slashblade.overRefine": "Awakened Potential",
+  "adv.slashblade.overRefine.desc": "You've unlocked the limit.\nUnlock the limitation by refining a nether star onto your blade",
 
   "adv.slashblade.white_broken":"Broken Edge",
   "adv.slashblade.white_broken.desc":"Reforge!",

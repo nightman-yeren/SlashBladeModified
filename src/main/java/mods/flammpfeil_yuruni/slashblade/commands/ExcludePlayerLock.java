@@ -14,7 +14,6 @@ public class ExcludePlayerLock {
 
     public ExcludePlayerLock(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("slashBlade")
-                .requires(cs->cs.hasPermission(4))
                 .then(Commands.literal("excludePlayer")
                 .then(Commands.literal("add")
                 .then(Commands.argument("playerName", StringArgumentType.string())
