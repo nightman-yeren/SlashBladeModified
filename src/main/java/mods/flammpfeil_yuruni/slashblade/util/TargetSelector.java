@@ -1,29 +1,31 @@
 package mods.flammpfeil_yuruni.slashblade.util;
 
 import com.google.common.collect.Lists;
-import mods.flammpfeil_yuruni.slashblade.SlashBlade;
 import mods.flammpfeil_yuruni.slashblade.entity.IShootable;
 import mods.flammpfeil_yuruni.slashblade.event.InputCommandEvent;
 import mods.flammpfeil_yuruni.slashblade.gamerules.SlashBladeHitRule;
 import mods.flammpfeil_yuruni.slashblade.item.ItemSlashBlade;
-import net.minecraft.client.Minecraft;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.Wolf;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.monster.Enemy;
-import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.animal.Wolf;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.level.Level;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.entity.PartEntity;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -35,11 +37,6 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 
 public class TargetSelector {
     static public final TargetingConditions lockon = (TargetingConditions.forCombat())
@@ -87,7 +84,7 @@ public class TargetSelector {
                 else
                     return false;
 
-            if (livingentity instanceof Enemy)
+            if (livingentity instanceof Enemy || livingentity instanceof Monster)
                 return true;
 
             if (livingentity.isCurrentlyGlowing())
@@ -112,7 +109,7 @@ public class TargetSelector {
             if(livingentity.getTeam() != null)
                 return true;
 
-            return false;
+            return SlashBladeHitRule.isEnabled(livingentity.level(), SlashBladeHitRule.SLASHBLADE_SELECTOR_DEFAULT_TRUE);
         }
     }
 

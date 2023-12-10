@@ -1,24 +1,20 @@
 package mods.flammpfeil_yuruni.slashblade.gamerules;
 
 import mods.flammpfeil_yuruni.slashblade.SlashBlade;
-import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraftforge.fml.loading.targets.FMLServerLaunchHandler;
-
-import java.util.Objects;
 
 public class SlashBladeHitRule extends GameRules {
 
     public static Key<BooleanValue> SLASHBLADE_HITPASSIVE = null;
     public static Key<BooleanValue> SLASHBLADE_HITPLAYER = null;
+    public static Key<BooleanValue> SLASHBLADE_SELECTOR_DEFAULT_TRUE = null;
 
     public static void init() {
         SLASHBLADE_HITPASSIVE = GameRules.register("sBladeHitPassive", GameRules.Category.PLAYER, GameRules.BooleanValue.create(true));
-        SLASHBLADE_HITPLAYER = GameRules.register("sBladeHitPlayer", GameRules.Category.PLAYER, GameRules.BooleanValue.create(true));;
+        SLASHBLADE_HITPLAYER = GameRules.register("sBladeHitPlayer", GameRules.Category.PLAYER, GameRules.BooleanValue.create(true));
+        SLASHBLADE_SELECTOR_DEFAULT_TRUE = GameRules.register("sBladeSelectorDefaultTrue", GameRules.Category.PLAYER, GameRules.BooleanValue.create(false));
     }
 
     public static boolean isEnabled(LevelAccessor world, Key<BooleanValue> key) {
