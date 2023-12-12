@@ -94,6 +94,9 @@ public class Extra {
 
                 }, ()-> ComboState.NONE);
 
+    public static final ComboState TEST = new ComboState("test", 10,
+            () -> 0, () -> 65, () -> 1.0f, () -> false, () -> 1000,
+            new ResourceLocation(SlashBlade.modid, "test.vmd"), (a) -> ComboState.NONE, () -> ComboState.NONE);
 
     public static final ComboState STANDBY_INAIR = new ComboState("standby_inair", 10,
                 ()->0,()->1,()->1.0f,()->true,()->400,

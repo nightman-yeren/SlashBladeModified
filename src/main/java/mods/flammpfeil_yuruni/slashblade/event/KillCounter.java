@@ -4,8 +4,8 @@ import mods.flammpfeil_yuruni.slashblade.init.SBItems;
 import mods.flammpfeil_yuruni.slashblade.item.ItemSlashBlade;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraftforge.common.MinecraftForge;
@@ -38,8 +38,21 @@ public class KillCounter {
         stack.getCapability(ItemSlashBlade.BLADESTATE).ifPresent(state->{
             state.setKillCount(state.getKillCount() + 1);
         });
-        if (event.getEntity() instanceof Monster && Math.round(Math.random() * (5 - Math.round((float) stack.getEnchantmentLevel(Enchantments.MOB_LOOTING) / 2))) == 1) {
-            ((Player) trueSource).addItem(new ItemStack(SBItems.proudsoul_tiny, stack.getEnchantmentLevel(Enchantments.MOB_LOOTING) <= 0 ? 0 : Math.round((float)stack.getEnchantmentLevel(Enchantments.MOB_LOOTING) / 2)));
+        if (!(event.getEntity() instanceof Animal) && Math.round(Math.random() * (5 - Math.round((float) stack.getEnchantmentLevel(Enchantments.MOB_LOOTING) / 2))) == 1) {
+            /*
+            Item soulType = null;
+            if (event.getEntity() instanceof Player) {
+                soulType = SBItems.proudsoul_trapezohedron;
+            } else {
+                soulType = SBItems.proudsoul_tiny;
+            }
+             */
+            //TODO: Add custom drops for certain instances of mobs
+            ItemEntity soulEntity = new ItemEntity(trueSource.level(), event.getEntity().getX(), event.getEntity().getY(), event.getEntity().getZ(),
+                    new ItemStack(SBItems.proudsoul_tiny));
+            soulEntity.setDefaultPickUpDelay();
+            //((Player) trueSource).addItem(new ItemStack(SBItems.proudsoul_tiny, stack.getEnchantmentLevel(Enchantments.MOB_LOOTING) <= 0 ? 0 : Math.round((float)stack.getEnchantmentLevel(Enchantments.MOB_LOOTING) / 2)));
+            trueSource.level().addFreshEntity(soulEntity);
         }
     }
 }

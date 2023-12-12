@@ -1,10 +1,7 @@
 package mods.flammpfeil_yuruni.slashblade.event;
 
 import mods.flammpfeil_yuruni.slashblade.SlashBlade;
-import mods.flammpfeil_yuruni.slashblade.commands.ContributeAndStory;
-import mods.flammpfeil_yuruni.slashblade.commands.ExcludePlayerLock;
-import mods.flammpfeil_yuruni.slashblade.commands.GetExcludedPlayers;
-import mods.flammpfeil_yuruni.slashblade.commands.RemoveExcludedPlayers;
+import mods.flammpfeil_yuruni.slashblade.commands.*;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -27,6 +24,7 @@ public class CommandsHandler {
         new RemoveExcludedPlayers(event.getDispatcher());
         new GetExcludedPlayers(event.getDispatcher());
         new ContributeAndStory(event.getDispatcher());
+        new TestAnimationCommand(event.getDispatcher());
 
         ConfigCommand.register(event.getDispatcher());
     }

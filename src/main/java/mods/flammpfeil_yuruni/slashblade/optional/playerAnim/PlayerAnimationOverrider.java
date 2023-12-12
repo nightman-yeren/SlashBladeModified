@@ -27,7 +27,7 @@ public class PlayerAnimationOverrider {
 
     static final ResourceLocation MotionLocation = new ResourceLocation(SlashBlade.modid, "model/pa/player_motion.vmd");
 
-    Map<String,VmdAnimation> animation = initAnimations();
+    public Map<String,VmdAnimation> animation = initAnimations();
 
     @SubscribeEvent
     public void onBladeAnimationStart(BladeMotionEvent event){
@@ -95,6 +95,8 @@ public class PlayerAnimationOverrider {
         map.put(Extra.EX_JUDGEMENT_CUT_SLASH_JUST.getName(), new VmdAnimation(MotionLocation, 1923,1963,false).setBlendLegs(false));
 
         map.put(Extra.EX_VOID_SLASH.getName(), new VmdAnimation(MotionLocation, 2200,2299,false).setBlendLegs(false));
+        //Extra animations added by Yuruni
+        map.put(Extra.TEST.getName(), new VmdAnimation(new ResourceLocation(SlashBlade.modid, "test.vmd"), 0, 65, false).setBlendLegs(false));
 
 
         return map;
