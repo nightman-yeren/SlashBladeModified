@@ -187,6 +187,8 @@ public class SummonedSwordArts {
 
                             for (int i = 0; i < count; i++) {
                                 EntityStormSwords ss = new EntityStormSwords(SlashBlade.RegistryEvents.StormSwords, worldIn);
+                                float swordsAttackDamage = state.getBaseAttackModifier() / 2 + state.getAttackAmplifier();
+                                ss.setDamage(swordsAttackDamage);
 
                                 worldIn.addFreshEntity(ss);
 
@@ -246,6 +248,8 @@ public class SummonedSwordArts {
 
                             for (int i = 0; i < count; i++) {
                                 EntityBlisteringSwords ss = new EntityBlisteringSwords(SlashBlade.RegistryEvents.BlisteringSwords, worldIn);
+                                float swordsAttackDamage = state.getBaseAttackModifier() / 2 + state.getAttackAmplifier();
+                                ss.setDamage(swordsAttackDamage);
 
                                 worldIn.addFreshEntity(ss);
 
@@ -314,6 +318,8 @@ public class SummonedSwordArts {
 
                             {//no random pos
                                 EntityHeavyRainSwords ss = new EntityHeavyRainSwords(SlashBlade.RegistryEvents.HeavyRainSwords, worldIn);
+                                float swordsAttackDamage = state.getBaseAttackModifier() / 2 + state.getAttackAmplifier();
+                                ss.setDamage(swordsAttackDamage);
 
                                 worldIn.addFreshEntity(ss);
 
@@ -337,6 +343,8 @@ public class SummonedSwordArts {
                             for (int i = 0; i < count; i++)
                             for (int l = 0; l < multiplier; l++){
                                 EntityHeavyRainSwords ss = new EntityHeavyRainSwords(SlashBlade.RegistryEvents.HeavyRainSwords, worldIn);
+                                float swordsAttackDamage = state.getBaseAttackModifier() / 2 + state.getAttackAmplifier();
+                                ss.setDamage(swordsAttackDamage);
 
                                 worldIn.addFreshEntity(ss);
 
@@ -403,6 +411,8 @@ public class SummonedSwordArts {
 
 
                 EntityAbstractSummonedSword ss = new EntityAbstractSummonedSword(SlashBlade.RegistryEvents.SummonedSword, worldIn);
+                float swordsAttackDamage = state.getBaseAttackModifier() / 2 + state.getAttackAmplifier();
+                ss.setDamage(swordsAttackDamage);
 
                 worldIn.addFreshEntity(ss);
 
