@@ -212,11 +212,10 @@ public class SlayerStyleArts {
                     Vec3 motion = this.maybeBackOffFromEdge(sender.getDeltaMovement(), sender);
 
                     sender.playNotifySound(SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 0.5f, 1.2f);
+                    sender.connection.send(new ClientboundSetEntityMotionPacket(sender.getId(), motion.scale(0.5f)));
 
                     sender.move(MoverType.SELF, motion);
-
-                    //sender.moveTo(sender.position());
-
+                    sender.moveTo(sender.position());
                     sender.connection.send(new ClientboundSetEntityMotionPacket(sender.getId(), motion.scale(0.5f)));
 
                     sender.getPersistentData().putInt("sb.avoid.counter",2);

@@ -5,10 +5,10 @@ import mods.flammpfeil_yuruni.slashblade.event.InputCommandEvent;
 import mods.flammpfeil_yuruni.slashblade.item.ItemSlashBlade;
 import mods.flammpfeil_yuruni.slashblade.util.EnumSetConverter;
 import mods.flammpfeil_yuruni.slashblade.util.InputCommand;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.EnumSet;
@@ -53,8 +53,11 @@ public class MoveCommandMessage {
                     if(!old.contains(c))
                         state.getLastPressTimes().put(c, currentTime);
                 });
+                try {
+                    InputCommandEvent.onInputChange(sender, state, old, current);
+                } catch (Exception e) {
 
-                InputCommandEvent.onInputChange(sender, state, old, current);
+                }
                 //todo: quick turnも実装したい
             });
         });

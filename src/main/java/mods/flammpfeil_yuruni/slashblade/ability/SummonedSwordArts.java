@@ -104,7 +104,8 @@ public class SummonedSwordArts {
 
                                 if (entity.experienceLevel <= 0) return;
 
-                                entity.giveExperiencePoints(-5);
+                                int experienceDecrease = (int) -(Math.round(state.getBaseAttackModifier() / 2));
+                                entity.giveExperienceLevels(experienceDecrease);
 
 
                                 AdvancementHelper.grantCriterion(entity, ADVANCEMENT_SPIRAL_SWORDS);
@@ -171,7 +172,8 @@ public class SummonedSwordArts {
 
                             if (entity.experienceLevel <= 0) return;
 
-                            entity.giveExperiencePoints(-5);
+                            int experienceDecrease = (int) -(Math.round(state.getBaseAttackModifier() / 2 * 0.7));
+                            entity.giveExperienceLevels(experienceDecrease);
 
                             AdvancementHelper.grantCriterion(entity, ADVANCEMENT_STORM_SWORDS);
 
@@ -232,7 +234,8 @@ public class SummonedSwordArts {
 
                             if (entity.experienceLevel <= 0) return;
 
-                            entity.giveExperiencePoints(-5);
+                            int experienceDecrease = (int) -(Math.round(state.getBaseAttackModifier() / 2 * 0.8));
+                            entity.giveExperienceLevels(experienceDecrease);
 
                             AdvancementHelper.grantCriterion(entity, ADVANCEMENT_BLISTERING_SWORDS);
 
@@ -294,7 +297,8 @@ public class SummonedSwordArts {
 
                             if (entity.experienceLevel <= 0) return;
 
-                            entity.giveExperiencePoints(-5);
+                            int experienceDecrease = (int) -(Math.round(state.getBaseAttackModifier() / 2 * 0.7));
+                            entity.giveExperienceLevels(experienceDecrease);
 
                             AdvancementHelper.grantCriterion(entity, ADVANCEMENT_HEAVY_RAIN_SWORDS);
 
