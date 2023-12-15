@@ -124,6 +124,8 @@ public class SummonedSwordArts {
 
                                 for (int i = 0; i < count; i++) {
                                     EntitySpiralSwords ss = new EntitySpiralSwords(SlashBlade.RegistryEvents.SpiralSwords, worldIn);
+                                    float swordsAttackDamage = state.getBaseAttackModifier() / 2 + state.getAttackAmplifier();
+                                    ss.setDamage(swordsAttackDamage);
 
                                     worldIn.addFreshEntity(ss);
 
