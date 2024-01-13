@@ -38,21 +38,23 @@ public class KillCounter {
         stack.getCapability(ItemSlashBlade.BLADESTATE).ifPresent(state->{
             state.setKillCount(state.getKillCount() + 1);
         });
-        if (!(event.getEntity() instanceof Animal) && Math.round(Math.random() * (5 - Math.round((float) stack.getEnchantmentLevel(Enchantments.MOB_LOOTING) / 2))) == 1) {
-            /*
-            Item soulType = null;
-            if (event.getEntity() instanceof Player) {
-                soulType = SBItems.proudsoul_trapezohedron;
-            } else {
-                soulType = SBItems.proudsoul_tiny;
+        if (stack.getEnchantmentLevel(Enchantments.MOB_LOOTING) >= 1) {
+            if (!(event.getEntity() instanceof Animal) && Math.round(Math.random() * (5 - Math.round((float) stack.getEnchantmentLevel(Enchantments.MOB_LOOTING) / 2))) == 1) {
+                /*
+                Item soulType = null;
+                if (event.getEntity() instanceof Player) {
+                    soulType = SBItems.proudsoul_trapezohedron;
+                } else {
+                    soulType = SBItems.proudsoul_tiny;
+                }
+                 */
+                //TODO: Add custom drops for certain instances of mobs
+                ItemEntity soulEntity = new ItemEntity(trueSource.level(), event.getEntity().getX(), event.getEntity().getY(), event.getEntity().getZ(),
+                        new ItemStack(SBItems.proudsoul_tiny));
+                soulEntity.setDefaultPickUpDelay();
+                //((Player) trueSource).addItem(new ItemStack(SBItems.proudsoul_tiny, stack.getEnchantmentLevel(Enchantments.MOB_LOOTING) <= 0 ? 0 : Math.round((float)stack.getEnchantmentLevel(Enchantments.MOB_LOOTING) / 2)));
+                trueSource.level().addFreshEntity(soulEntity);
             }
-             */
-            //TODO: Add custom drops for certain instances of mobs
-            ItemEntity soulEntity = new ItemEntity(trueSource.level(), event.getEntity().getX(), event.getEntity().getY(), event.getEntity().getZ(),
-                    new ItemStack(SBItems.proudsoul_tiny));
-            soulEntity.setDefaultPickUpDelay();
-            //((Player) trueSource).addItem(new ItemStack(SBItems.proudsoul_tiny, stack.getEnchantmentLevel(Enchantments.MOB_LOOTING) <= 0 ? 0 : Math.round((float)stack.getEnchantmentLevel(Enchantments.MOB_LOOTING) / 2)));
-            trueSource.level().addFreshEntity(soulEntity);
         }
     }
 }

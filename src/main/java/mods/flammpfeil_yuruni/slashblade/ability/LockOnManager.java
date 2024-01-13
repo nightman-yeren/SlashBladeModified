@@ -1,6 +1,5 @@
 package mods.flammpfeil_yuruni.slashblade.ability;
 
-import mods.flammpfeil_yuruni.slashblade.SlashBlade;
 import mods.flammpfeil_yuruni.slashblade.capability.inputstate.CapabilityInputState;
 import mods.flammpfeil_yuruni.slashblade.entity.IShootable;
 import mods.flammpfeil_yuruni.slashblade.event.InputCommandEvent;
@@ -12,19 +11,21 @@ import mods.flammpfeil_yuruni.slashblade.util.TargetSelector;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Arrow;
+import net.minecraft.world.entity.projectile.ThrownEgg;
+import net.minecraft.world.entity.projectile.ThrownPotion;
+import net.minecraft.world.entity.vehicle.Minecart;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.GameRules;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.util.Mth;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -108,6 +109,11 @@ public class LockOnManager {
                     if (!player.hasLineOfSight(foundEntity.get())) foundEntity = Optional.empty();
                     if (foundEntity.get() instanceof ItemEntity) foundEntity = Optional.empty();
                     if (foundEntity.get() instanceof ExperienceOrb) foundEntity = Optional.empty();
+                    if (foundEntity.get() instanceof ItemFrame) foundEntity = Optional.empty();
+                    if (foundEntity.get() instanceof Minecart) foundEntity = Optional.empty();
+                    if (foundEntity.get() instanceof Arrow) foundEntity = Optional.empty();
+                    if (foundEntity.get() instanceof ThrownPotion) foundEntity = Optional.empty();
+                    if (foundEntity.get() instanceof ThrownEgg) foundEntity = Optional.empty();
                     if (foundEntity.get() instanceof Player) {
                         if (isPlayerInList(player, (Player) foundEntity.get()) || !SlashBladeHitRule.isEnabled(foundEntity.get().level(), SlashBladeHitRule.SLASHBLADE_HITPLAYER)) {
                             foundEntity = Optional.empty();
@@ -165,6 +171,11 @@ public class LockOnManager {
             if (!player.hasLineOfSight(target)) return;
             if (target instanceof ItemEntity) return;
             if (target instanceof ExperienceOrb) return;
+            if (target instanceof ItemFrame) return;
+            if (target instanceof Minecart) return;
+            if (target instanceof Arrow) return;
+            if (target instanceof ThrownPotion) return;
+            if (target instanceof ThrownEgg) return;
             if(!target.isAlive()) return;
 
             if(!player.level().isClientSide) return;
