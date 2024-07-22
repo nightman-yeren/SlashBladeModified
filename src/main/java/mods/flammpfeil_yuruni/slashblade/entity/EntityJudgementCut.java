@@ -215,7 +215,6 @@ public class EntityJudgementCut extends Projectile implements IShootable {
             tryDespawn();
             return;
         }
-        System.out.println("ti");
 
         if (this.tickCount == 0) {
             /*
