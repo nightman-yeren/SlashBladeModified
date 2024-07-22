@@ -2,29 +2,29 @@ package mods.flammpfeil_yuruni.slashblade.ability;
 
 import mods.flammpfeil_yuruni.slashblade.SlashBlade;
 import mods.flammpfeil_yuruni.slashblade.capability.mobeffect.CapabilityMobEffect;
+import mods.flammpfeil_yuruni.slashblade.capability.powerrank.BladeChargeProvider;
 import mods.flammpfeil_yuruni.slashblade.entity.EntityAbstractSummonedSword;
 import mods.flammpfeil_yuruni.slashblade.event.InputCommandEvent;
 import mods.flammpfeil_yuruni.slashblade.item.ItemSlashBlade;
-import mods.flammpfeil_yuruni.slashblade.util.AdvancementHelper;
-import mods.flammpfeil_yuruni.slashblade.util.InputCommand;
-import mods.flammpfeil_yuruni.slashblade.util.NBTHelper;
-import mods.flammpfeil_yuruni.slashblade.util.VectorHelper;
+import mods.flammpfeil_yuruni.slashblade.util.*;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.level.TicketType;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.level.Level;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.TicketType;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -75,6 +75,11 @@ public class SlayerStyleArts {
 
             if(current.containsAll(fowerd_sprint_sneak)){
                 //air trick Or trick up
+                if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled(MobilitySkillCanceler.MobilitySkills.SLAYER_STYLE_ARTS.name)) return;
+                sender.getCapability(BladeChargeProvider.BLADE_CHARGE).ifPresent(playerPowerCharge -> {
+                    playerPowerCharge.subCharges(1);
+                    sender.sendSystemMessage(Component.literal("Current charges: " + playerPowerCharge.getPowerCharges()).withStyle(ChatFormatting.AQUA));
+                });
                 isHandled = sender.getMainHandItem().getCapability(ItemSlashBlade.BLADESTATE).map(state->{
                     Entity tmpTarget = state.getTargetEntity(worldIn);
 
@@ -87,6 +92,7 @@ public class SlayerStyleArts {
                     }
 
                     if(target == null && 0 == sender.getPersistentData().getInt("sb.avoid.trickup")) {
+
                         //trick up
                         Untouchable.setUntouchable(sender, TRICKACTION_UNTOUCHABLE_TIME);
 
@@ -169,6 +175,11 @@ public class SlayerStyleArts {
 
             //trick down
             if(!isHandled && !sender.onGround() && current.containsAll(back_sprint_sneak)){
+                if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled(MobilitySkillCanceler.MobilitySkills.SLAYER_STYLE_ARTS.name)) return;
+                sender.getCapability(BladeChargeProvider.BLADE_CHARGE).ifPresent(playerPowerCharge -> {
+                    playerPowerCharge.subCharges(1);
+                    sender.sendSystemMessage(Component.literal("Current charges: " + playerPowerCharge.getPowerCharges()).withStyle(ChatFormatting.AQUA));
+                });
                 Vec3 oldpos = sender.position();
 
                 Vec3 motion = new Vec3(0, -5, 0);
@@ -195,7 +206,11 @@ public class SlayerStyleArts {
 
             if(!isHandled && sender.onGround() && current.contains(InputCommand.SPRINT) && current.stream().anyMatch(cc->move.contains(cc))){
                 //quick avoid ground
-
+                if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled(MobilitySkillCanceler.MobilitySkills.SLAYER_STYLE_ARTS.name)) return;
+                sender.getCapability(BladeChargeProvider.BLADE_CHARGE).ifPresent(playerPowerCharge -> {
+                    playerPowerCharge.subCharges(1);
+                    sender.sendSystemMessage(Component.literal("Current charges: " + playerPowerCharge.getPowerCharges()).withStyle(ChatFormatting.AQUA));
+                });
                 int count = sender.getCapability(CapabilityMobEffect.MOB_EFFECT)
                         .map(ef->ef.doAvoid(sender.level().getGameTime()))
                         .orElse(0);

@@ -107,19 +107,19 @@ public class LockOnManager {
                 if (foundEntity.isPresent()) {
                     //if (foundEntity.get().look)
                     if (!player.hasLineOfSight(foundEntity.get())) foundEntity = Optional.empty();
-                    if (foundEntity.get() instanceof ItemEntity) foundEntity = Optional.empty();
-                    if (foundEntity.get() instanceof ExperienceOrb) foundEntity = Optional.empty();
-                    if (foundEntity.get() instanceof ItemFrame) foundEntity = Optional.empty();
-                    if (foundEntity.get() instanceof Minecart) foundEntity = Optional.empty();
-                    if (foundEntity.get() instanceof Arrow) foundEntity = Optional.empty();
-                    if (foundEntity.get() instanceof ThrownPotion) foundEntity = Optional.empty();
-                    if (foundEntity.get() instanceof ThrownEgg) foundEntity = Optional.empty();
-                    if (foundEntity.get() instanceof Player) {
+                    if (foundEntity.isPresent() && foundEntity.get() instanceof ItemEntity) foundEntity = Optional.empty();
+                    if (foundEntity.isPresent() && foundEntity.get() instanceof ExperienceOrb) foundEntity = Optional.empty();
+                    if (foundEntity.isPresent() && foundEntity.get() instanceof ItemFrame) foundEntity = Optional.empty();
+                    if (foundEntity.isPresent() && foundEntity.get() instanceof Minecart) foundEntity = Optional.empty();
+                    if (foundEntity.isPresent() && foundEntity.get() instanceof Arrow) foundEntity = Optional.empty();
+                    if (foundEntity.isPresent() && foundEntity.get() instanceof ThrownPotion) foundEntity = Optional.empty();
+                    if (foundEntity.isPresent() && foundEntity.get() instanceof ThrownEgg) foundEntity = Optional.empty();
+                    if (foundEntity.isPresent() && foundEntity.get() instanceof Player) {
                         if (isPlayerInList(player, (Player) foundEntity.get()) || !SlashBladeHitRule.isEnabled(foundEntity.get().level(), SlashBladeHitRule.SLASHBLADE_HITPLAYER)) {
                             foundEntity = Optional.empty();
                         }
                     }
-                    if (foundEntity.get() instanceof Animal && !SlashBladeHitRule.isEnabled(foundEntity.get().level(), SlashBladeHitRule.SLASHBLADE_HITPASSIVE)) {
+                    if (foundEntity.isPresent() && foundEntity.get() instanceof Animal && !SlashBladeHitRule.isEnabled(foundEntity.get().level(), SlashBladeHitRule.SLASHBLADE_HITPASSIVE)) {
                         foundEntity = Optional.empty();
                     }
                 }

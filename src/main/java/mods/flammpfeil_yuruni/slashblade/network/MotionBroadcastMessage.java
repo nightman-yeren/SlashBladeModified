@@ -1,5 +1,6 @@
 package mods.flammpfeil_yuruni.slashblade.network;
 
+import mods.flammpfeil_yuruni.slashblade.SlashBlade;
 import mods.flammpfeil_yuruni.slashblade.capability.slashblade.ComboState;
 import mods.flammpfeil_yuruni.slashblade.event.BladeMotionEvent;
 import net.minecraft.client.Minecraft;
@@ -63,6 +64,7 @@ public class MotionBroadcastMessage {
         ComboState state = ComboState.NONE.valueOf(combo);
         if(state == null) return;
 
+        if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled(state.getName())) return;
         MinecraftForge.EVENT_BUS.post(new BladeMotionEvent(target, state));
     }
 }

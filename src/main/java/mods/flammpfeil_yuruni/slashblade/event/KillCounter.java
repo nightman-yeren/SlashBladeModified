@@ -1,15 +1,20 @@
 package mods.flammpfeil_yuruni.slashblade.event;
 
+import mods.flammpfeil_yuruni.slashblade.capability.powerrank.BladeChargeProvider;
 import mods.flammpfeil_yuruni.slashblade.init.SBItems;
 import mods.flammpfeil_yuruni.slashblade.item.ItemSlashBlade;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -56,5 +61,27 @@ public class KillCounter {
                 trueSource.level().addFreshEntity(soulEntity);
             }
         }
+    }
+
+    @SubscribeEvent
+    public void onLivingHurtEvent(LivingHurtEvent event) {
+        Entity source = event.getSource().getEntity();
+
+        if (!(source instanceof LivingEntity)) return;
+        if (!(source instanceof Player)) return;
+
+        ItemStack stack = ((LivingEntity) source).getMainHandItem();
+        if(stack.isEmpty()) return;
+        if(!(stack.getItem() instanceof ItemSlashBlade)) return;
+
+        /*
+        stack.getCapability(ItemSlashBlade.BLADESTATE).ifPresent(state->{
+            state.setKillCount(state.getKillCount() + 1);
+        });
+         */
+        source.getCapability(BladeChargeProvider.BLADE_CHARGE).ifPresent(bladeCharge -> {
+            bladeCharge.addCharges(1);
+            source.sendSystemMessage(Component.literal("Current charge: " + bladeCharge.getPowerCharges()).withStyle(ChatFormatting.AQUA));
+        });
     }
 }

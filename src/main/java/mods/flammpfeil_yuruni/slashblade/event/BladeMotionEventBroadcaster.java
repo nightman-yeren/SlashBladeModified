@@ -1,5 +1,6 @@
 package mods.flammpfeil_yuruni.slashblade.event;
 
+import mods.flammpfeil_yuruni.slashblade.SlashBlade;
 import mods.flammpfeil_yuruni.slashblade.network.MotionBroadcastMessage;
 import mods.flammpfeil_yuruni.slashblade.network.NetworkManager;
 import net.minecraft.server.level.ServerPlayer;
@@ -22,6 +23,7 @@ public class BladeMotionEventBroadcaster {
 
     @SubscribeEvent
     public void onBladeMotion(BladeMotionEvent event){
+        if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled(event.getCombo().getName())) return;
         if(!(event.getEntity() instanceof ServerPlayer)) return;
 
         ServerPlayer sp = (ServerPlayer) event.getEntity();

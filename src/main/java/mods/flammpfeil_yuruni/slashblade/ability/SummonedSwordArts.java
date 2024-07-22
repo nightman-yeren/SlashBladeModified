@@ -4,10 +4,13 @@ import mods.flammpfeil_yuruni.slashblade.SlashBlade;
 import mods.flammpfeil_yuruni.slashblade.capability.concentrationrank.CapabilityConcentrationRank;
 import mods.flammpfeil_yuruni.slashblade.capability.concentrationrank.IConcentrationRank;
 import mods.flammpfeil_yuruni.slashblade.capability.inputstate.CapabilityInputState;
+import mods.flammpfeil_yuruni.slashblade.capability.powerrank.BladeChargeProvider;
 import mods.flammpfeil_yuruni.slashblade.entity.*;
 import mods.flammpfeil_yuruni.slashblade.event.InputCommandEvent;
 import mods.flammpfeil_yuruni.slashblade.item.ItemSlashBlade;
 import mods.flammpfeil_yuruni.slashblade.util.*;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -28,6 +31,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 public class SummonedSwordArts {
@@ -102,10 +106,25 @@ public class SummonedSwordArts {
                             //summon
                             entity.getMainHandItem().getCapability(ItemSlashBlade.BLADESTATE).ifPresent((state) -> {
 
+                                //Decrease blade points
+                                /*
                                 if (entity.experienceLevel <= 0) return;
 
                                 int experienceDecrease = (int) -(Math.round(state.getBaseAttackModifier() / 2));
                                 entity.giveExperienceLevels(experienceDecrease);
+                                 */
+                                AtomicInteger charges = new AtomicInteger();
+                                entity.getCapability(BladeChargeProvider.BLADE_CHARGE).ifPresent(bladeCharge -> {
+                                    charges.set(bladeCharge.getPowerCharges());
+                                });
+                                if (charges.get() < 5) {
+                                    return;
+                                } else if (charges.get() >= 5) {
+                                    entity.getCapability(BladeChargeProvider.BLADE_CHARGE).ifPresent(bladeCharge -> {
+                                        bladeCharge.subCharges(5);
+                                        entity.sendSystemMessage(Component.literal("Current charge: " + bladeCharge.getPowerCharges()).withStyle(ChatFormatting.AQUA));
+                                    });
+                                }
 
 
                                 AdvancementHelper.grantCriterion(entity, ADVANCEMENT_SPIRAL_SWORDS);
@@ -172,10 +191,25 @@ public class SummonedSwordArts {
 
                             if(target == null) return;
 
+                            //Decrease blade points
+                            /*
                             if (entity.experienceLevel <= 0) return;
 
                             int experienceDecrease = (int) -(Math.round(state.getBaseAttackModifier() / 2 * 0.7));
                             entity.giveExperienceLevels(experienceDecrease);
+                             */
+                            AtomicInteger charges = new AtomicInteger();
+                            entity.getCapability(BladeChargeProvider.BLADE_CHARGE).ifPresent(bladeCharge -> {
+                                charges.set(bladeCharge.getPowerCharges());
+                            });
+                            if (charges.get() < 9) {
+                                return;
+                            } else if (charges.get() >= 9) {
+                                entity.getCapability(BladeChargeProvider.BLADE_CHARGE).ifPresent(bladeCharge -> {
+                                    bladeCharge.subCharges(9);
+                                    entity.sendSystemMessage(Component.literal("Current charge: " + bladeCharge.getPowerCharges()).withStyle(ChatFormatting.AQUA));
+                                });
+                            }
 
                             AdvancementHelper.grantCriterion(entity, ADVANCEMENT_STORM_SWORDS);
 
@@ -234,10 +268,25 @@ public class SummonedSwordArts {
 
                             Level worldIn = entity.level();
 
+                            //Decrease blade points
+                            /*
                             if (entity.experienceLevel <= 0) return;
 
                             int experienceDecrease = (int) -(Math.round(state.getBaseAttackModifier() / 2 * 0.8));
                             entity.giveExperienceLevels(experienceDecrease);
+                             */
+                            AtomicInteger charges = new AtomicInteger();
+                            entity.getCapability(BladeChargeProvider.BLADE_CHARGE).ifPresent(bladeCharge -> {
+                                charges.set(bladeCharge.getPowerCharges());
+                            });
+                            if (charges.get() < 5) {
+                                return;
+                            } else if (charges.get() >= 5) {
+                                entity.getCapability(BladeChargeProvider.BLADE_CHARGE).ifPresent(bladeCharge -> {
+                                    bladeCharge.subCharges(5);
+                                    entity.sendSystemMessage(Component.literal("Current charge: " + bladeCharge.getPowerCharges()).withStyle(ChatFormatting.AQUA));
+                                });
+                            }
 
                             AdvancementHelper.grantCriterion(entity, ADVANCEMENT_BLISTERING_SWORDS);
 
@@ -297,10 +346,25 @@ public class SummonedSwordArts {
                             Level worldIn = entity.level();
                             Entity target = state.getTargetEntity(worldIn);
 
+                            //Decrease blade points
+                            /*
                             if (entity.experienceLevel <= 0) return;
 
                             int experienceDecrease = (int) -(Math.round(state.getBaseAttackModifier() / 2 * 0.7));
                             entity.giveExperienceLevels(experienceDecrease);
+                             */
+                            AtomicInteger charges = new AtomicInteger();
+                            entity.getCapability(BladeChargeProvider.BLADE_CHARGE).ifPresent(bladeCharge -> {
+                                charges.set(bladeCharge.getPowerCharges());
+                            });
+                            if (charges.get() < 3) {
+                                return;
+                            } else if (charges.get() >= 3) {
+                                entity.getCapability(BladeChargeProvider.BLADE_CHARGE).ifPresent(bladeCharge -> {
+                                    bladeCharge.subCharges(3);
+                                    entity.sendSystemMessage(Component.literal("Current charge: " + bladeCharge.getPowerCharges()).withStyle(ChatFormatting.AQUA));
+                                });
+                            }
 
                             AdvancementHelper.grantCriterion(entity, ADVANCEMENT_HEAVY_RAIN_SWORDS);
 
@@ -376,10 +440,19 @@ public class SummonedSwordArts {
             });
 
             sender.getMainHandItem().getCapability(ItemSlashBlade.BLADESTATE).ifPresent((state)->{
-                if(sender.experienceLevel <= 0)
+                //Decrease blade points for single
+                AtomicInteger charges = new AtomicInteger();
+                sender.getCapability(BladeChargeProvider.BLADE_CHARGE).ifPresent(bladeCharge -> {
+                    charges.set(bladeCharge.getPowerCharges());
+                });
+                if (charges.get() < 1) {
                     return;
-
-                sender.giveExperiencePoints(-1);
+                } else if (charges.get() >= 1) {
+                    sender.getCapability(BladeChargeProvider.BLADE_CHARGE).ifPresent(bladeCharge -> {
+                        bladeCharge.subCharges(1);
+                        sender.sendSystemMessage(Component.literal("Current charge: " + bladeCharge.getPowerCharges()).withStyle(ChatFormatting.AQUA));
+                    });
+                }
 
                 AdvancementHelper.grantCriterion(sender, ADVANCEMENT_SUMMONEDSWORDS);
 

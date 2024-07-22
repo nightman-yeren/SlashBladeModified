@@ -27,7 +27,9 @@ import mods.flammpfeil_yuruni.slashblade.item.ItemSoulActivated;
 import mods.flammpfeil_yuruni.slashblade.item.ItemTierSlashBlade;
 import mods.flammpfeil_yuruni.slashblade.memory.ServerMemory;
 import mods.flammpfeil_yuruni.slashblade.network.NetworkManager;
+import mods.flammpfeil_yuruni.slashblade.network.YMessages;
 import mods.flammpfeil_yuruni.slashblade.optional.playerAnim.PlayerAnimationOverrider;
+import mods.flammpfeil_yuruni.slashblade.util.MobilitySkillCanceler;
 import mods.flammpfeil_yuruni.slashblade.util.TargetSelector;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -91,6 +93,7 @@ public class SlashBlade
     public static final String modid = "slashblade";
 
     public static ServerMemory serverMemory = ServerMemory.getInstance();
+    public static MobilitySkillCanceler mobilitySkillCanceler = new MobilitySkillCanceler();
 
     public static final CreativeModeTab SLASHBLADE = CreativeModeTab.builder()
             .title(Component.translatable(modid))
@@ -212,6 +215,8 @@ public class SlashBlade
         CommandsHandler.getInstance().register();
         SlashBladeHitRule.init();
         PlayerConnection.getInstance().register();
+        BladeChargeHandler.getInstance().register();
+        YMessages.register();
     }
 
     @OnlyIn(Dist.CLIENT)

@@ -4,12 +4,16 @@ import mods.flammpfeil_yuruni.slashblade.SlashBlade;
 import mods.flammpfeil_yuruni.slashblade.capability.concentrationrank.ConcentrationRankCapabilityProvider;
 import mods.flammpfeil_yuruni.slashblade.capability.inputstate.InputStateCapabilityProvider;
 import mods.flammpfeil_yuruni.slashblade.capability.mobeffect.MobEffectCapabilityProvider;
+import mods.flammpfeil_yuruni.slashblade.capability.powerrank.BladeCharge;
+import mods.flammpfeil_yuruni.slashblade.capability.powerrank.BladeChargeProvider;
 import mods.flammpfeil_yuruni.slashblade.capability.slashblade.BladeStateCapabilityProvider;
 import mods.flammpfeil_yuruni.slashblade.item.ItemSlashBlade;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -35,5 +39,19 @@ public class CapabilityAttachHandler {
             return;
 
         event.addCapability(BLADESTATE_KEY, new BladeStateCapabilityProvider());
+    }
+
+    @SubscribeEvent
+    public void AttatchCapabilities_Player(AttachCapabilitiesEvent<Entity> event) {
+        if (event.getObject() instanceof Player) {
+            if (!event.getObject().getCapability(BladeChargeProvider.BLADE_CHARGE).isPresent()) {
+                event.addCapability(new ResourceLocation(SlashBlade.modid, "properties"), new BladeChargeProvider());
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
+        event.register(BladeCharge.class);
     }
 }

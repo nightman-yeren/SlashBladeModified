@@ -3,6 +3,7 @@ package mods.flammpfeil_yuruni.slashblade.capability.slashblade.combo;
 import mods.flammpfeil_yuruni.slashblade.SlashBlade;
 import mods.flammpfeil_yuruni.slashblade.ability.StunManager;
 import mods.flammpfeil_yuruni.slashblade.capability.inputstate.IInputState;
+import mods.flammpfeil_yuruni.slashblade.capability.powerrank.BladeChargeProvider;
 import mods.flammpfeil_yuruni.slashblade.capability.slashblade.ComboState;
 import mods.flammpfeil_yuruni.slashblade.entity.EntitySlashEffect;
 import mods.flammpfeil_yuruni.slashblade.event.FallHandler;
@@ -10,17 +11,19 @@ import mods.flammpfeil_yuruni.slashblade.event.client.UserPoseOverrider;
 import mods.flammpfeil_yuruni.slashblade.item.ItemSlashBlade;
 import mods.flammpfeil_yuruni.slashblade.specialattack.JudgementCut;
 import mods.flammpfeil_yuruni.slashblade.util.*;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.capabilities.Capability;
@@ -694,6 +697,11 @@ public class Extra {
             ()->2000, ()->2019, ()->1.0f, ()->false,()->0,
             ExMotionLocation, (a)-> (a.hasEffect(MobEffects.DAMAGE_BOOST) || a.hasEffect(MobEffects.HUNGER)) ? Extra.EX_RAPID_SLASH_QUICK : Extra.EX_RAPID_SLASH, ()-> Extra.EX_RAPID_SLASH_END)
             .addHoldAction((e)->{
+                if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled("ex_rapid_slash")) return;
+                e.getCapability(BladeChargeProvider.BLADE_CHARGE).ifPresent(playerPowerCharge -> {
+                    playerPowerCharge.subCharges(1);
+                    e.sendSystemMessage(Component.literal("Current charges: " + playerPowerCharge.getPowerCharges()).withStyle(ChatFormatting.AQUA));
+                });
                 AttributeModifier am = new AttributeModifier("SweepingDamageRatio", -3, AttributeModifier.Operation.ADDITION);
                 AttributeInstance mai = e.getAttribute(ForgeMod.ENTITY_REACH.get());
                 mai.addTransientModifier(am);
@@ -718,6 +726,11 @@ public class Extra {
                 mai.removeModifier(am);
             })
             .addTickAction((e)->{
+                if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled("ex_rapid_slash")) return;
+                e.getCapability(BladeChargeProvider.BLADE_CHARGE).ifPresent(playerPowerCharge -> {
+                    playerPowerCharge.subCharges(1);
+                    e.sendSystemMessage(Component.literal("Current charges: " + playerPowerCharge.getPowerCharges()).withStyle(ChatFormatting.AQUA));
+                });
                 long elapsed = ComboState.getElapsed(e);
 
                 if(elapsed == 0){
@@ -827,11 +840,14 @@ public class Extra {
             ()->1900,()->1923,()->1.0f,()->false,()->0,
             ExMotionLocation, (a)-> Extra.EX_JUDGEMENT_CUT, ()->Extra.EX_JUDGEMENT_CUT_SLASH)
             .addTickAction((e)->{
-
+                if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled(MobilitySkillCanceler.MobilitySkills.JUDGEMENT_CUT.name)) return;
                 long elapsed = ComboState.getElapsed(e);
 
                 if(elapsed == 0){
                     e.playSound(SoundEvents.TRIDENT_THROW, 0.80F, 0.625F + 0.1f * e.getRandom().nextFloat());
+                    e.getCapability(BladeChargeProvider.BLADE_CHARGE).ifPresent(bladeCharge -> {
+                        bladeCharge.subCharges(2);
+                    });
                     AdvancementHelper.grantCriterion(e,ADVANCEMENT_JUDGEMENT_CUT);
                 }
 

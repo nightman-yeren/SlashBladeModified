@@ -14,7 +14,7 @@ public class ConcentrationRankCapabilityProvider implements ICapabilityProvider,
 
     public static final Capability<IConcentrationRank> RANK_POINT = CapabilityManager.get(new CapabilityToken<>(){});
 
-    protected LazyOptional<IConcentrationRank> state = LazyOptional.of(()->new ConcentrationRank());
+    protected LazyOptional<IConcentrationRank> state = LazyOptional.of(ConcentrationRank::new);
 
     @Nonnull
     @Override

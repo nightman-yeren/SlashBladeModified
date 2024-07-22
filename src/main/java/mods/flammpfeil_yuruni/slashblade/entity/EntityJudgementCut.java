@@ -1,38 +1,39 @@
 package mods.flammpfeil_yuruni.slashblade.entity;
 
 import mods.flammpfeil_yuruni.slashblade.SlashBlade;
+import mods.flammpfeil_yuruni.slashblade.network.YMessages;
+import mods.flammpfeil_yuruni.slashblade.network.ypacket.PowerRankC2SPacket;
 import mods.flammpfeil_yuruni.slashblade.util.*;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.alchemy.PotionUtils;
-import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.Level;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.network.NetworkHooks;
+import net.minecraftforge.network.PlayMessages;
 
 import javax.annotation.Nullable;
 import java.util.EnumSet;
 import java.util.List;
-
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.EntityHitResult;
-import net.minecraftforge.network.PlayMessages;
-import net.minecraftforge.network.NetworkHooks;
 
 public class EntityJudgementCut extends Projectile implements IShootable {
     private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.<Integer>defineId(EntityJudgementCut.class, EntityDataSerializers.INT);
@@ -210,11 +211,27 @@ public class EntityJudgementCut extends Projectile implements IShootable {
     public void tick() {
         super.tick();
 
+        if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled(MobilitySkillCanceler.MobilitySkills.JUDGEMENT_CUT.name)) {
+            tryDespawn();
+            return;
+        }
+        System.out.println("ti");
+
+        if (this.tickCount == 0) {
+            /*
+            this.getShooter().getCapability(BladeChargeProvider.BLADE_CHARGE).ifPresent(bladeCharge -> {
+                bladeCharge.subCharges(2);
+            });
+             */
+            YMessages.sendToServer(new PowerRankC2SPacket());
+        }
+
         if(tickCount < 8 && tickCount % 2 == 0) {
             this.playSound(getHitEntitySound(), 0.2F, 0.5F + 0.25f * this.random.nextFloat());
         }
 
         if(this.getShooter() != null) {
+
             AABB bb = this.getBoundingBox();
 
             //cyclehit

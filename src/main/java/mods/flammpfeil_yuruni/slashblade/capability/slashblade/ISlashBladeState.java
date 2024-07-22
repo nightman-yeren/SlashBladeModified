@@ -22,6 +22,7 @@ package mods.flammpfeil_yuruni.slashblade.capability.slashblade;
 import com.google.common.collect.ImmutableRangeMap;
 import com.google.common.collect.Range;
 import com.google.common.collect.RangeMap;
+import mods.flammpfeil_yuruni.slashblade.SlashBlade;
 import mods.flammpfeil_yuruni.slashblade.capability.slashblade.combo.Extra;
 import mods.flammpfeil_yuruni.slashblade.client.renderer.CarryType;
 import mods.flammpfeil_yuruni.slashblade.event.BladeMotionEvent;
@@ -303,6 +304,7 @@ public interface ISlashBladeState {
     }
 
     default void updateComboSeq(LivingEntity entity, ComboState cs){
+        if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled(cs.getName())) return;
         this.setComboSeq(cs);
         this.setLastActionTime(entity.level().getGameTime());
 

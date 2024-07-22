@@ -32,6 +32,7 @@ public class PlayerAnimationOverrider {
     @SubscribeEvent
     public void onBladeAnimationStart(BladeMotionEvent event){
         if(!(event.getEntity() instanceof AbstractClientPlayer)) return;
+        if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled(event.getCombo().getName())) return;
         AbstractClientPlayer player = (AbstractClientPlayer) event.getEntity();
 
         AnimationStack animationStack = PlayerAnimationAccess.getPlayerAnimLayer(player);
