@@ -1,10 +1,9 @@
 package mods.flammpfeil_yuruni.slashblade.event;
 
-import mods.flammpfeil_yuruni.slashblade.capability.powerrank.BladeChargeProvider;
+import mods.flammpfeil_yuruni.slashblade.capability.bladecharge.BladeChargeProvider;
 import mods.flammpfeil_yuruni.slashblade.init.SBItems;
 import mods.flammpfeil_yuruni.slashblade.item.ItemSlashBlade;
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Animal;
@@ -80,8 +79,7 @@ public class KillCounter {
         });
          */
         source.getCapability(BladeChargeProvider.BLADE_CHARGE).ifPresent(bladeCharge -> {
-            bladeCharge.addCharges(1);
-            source.sendSystemMessage(Component.literal("Current charge: " + bladeCharge.getPowerCharges()).withStyle(ChatFormatting.AQUA));
+            bladeCharge.addCharges(1, (ServerPlayer) source);
         });
     }
 }

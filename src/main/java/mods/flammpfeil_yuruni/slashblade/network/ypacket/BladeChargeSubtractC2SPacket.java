@@ -1,22 +1,20 @@
 package mods.flammpfeil_yuruni.slashblade.network.ypacket;
 
-import mods.flammpfeil_yuruni.slashblade.capability.powerrank.BladeChargeProvider;
-import net.minecraft.ChatFormatting;
+import mods.flammpfeil_yuruni.slashblade.capability.bladecharge.BladeChargeProvider;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class PowerRankC2SPacket {
+public class BladeChargeSubtractC2SPacket {
 
-    public PowerRankC2SPacket() {
+    public BladeChargeSubtractC2SPacket() {
 
     }
 
-    public PowerRankC2SPacket(FriendlyByteBuf buf) {
+    public BladeChargeSubtractC2SPacket(FriendlyByteBuf buf) {
 
     }
 
@@ -32,8 +30,7 @@ public class PowerRankC2SPacket {
             ServerLevel level = player.serverLevel().getLevel();
 
             player.getCapability(BladeChargeProvider.BLADE_CHARGE).ifPresent(charge -> {
-                charge.subCharges(1);
-                player.sendSystemMessage(Component.literal("Current Charge: " + charge.getPowerCharges()).withStyle(ChatFormatting.AQUA));
+                charge.subCharges(1, player);
             });
         });
         return true;

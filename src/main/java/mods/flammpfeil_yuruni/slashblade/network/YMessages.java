@@ -1,7 +1,9 @@
 package mods.flammpfeil_yuruni.slashblade.network;
 
 import mods.flammpfeil_yuruni.slashblade.SlashBlade;
-import mods.flammpfeil_yuruni.slashblade.network.ypacket.PowerRankC2SPacket;
+import mods.flammpfeil_yuruni.slashblade.network.ypacket.BladeChargeSubtractC2SPacket;
+import mods.flammpfeil_yuruni.slashblade.network.ypacket.BladeChargeSyncS2CPacket;
+import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkDirection;
@@ -28,14 +30,21 @@ public class YMessages {
 
         INSTANCE = net;
 
-        net.messageBuilder(PowerRankC2SPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .decoder(PowerRankC2SPacket::new)
-                .encoder(PowerRankC2SPacket::toBytes)
-                .consumerMainThread(PowerRankC2SPacket::handle)
+        net.messageBuilder(BladeChargeSubtractC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
+                .decoder(BladeChargeSubtractC2SPacket::new)
+                .encoder(BladeChargeSubtractC2SPacket::toBytes)
+                .consumerMainThread(BladeChargeSubtractC2SPacket::handle)
+                .add();
+
+        net.messageBuilder(BladeChargeSyncS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(BladeChargeSyncS2CPacket::new)
+                .encoder(BladeChargeSyncS2CPacket::toBytes)
+                .consumerMainThread(BladeChargeSyncS2CPacket::handle)
                 .add();
     }
 
     public static <MSG> void sendToServer(MSG message) {
+        if (Minecraft.getInstance().getConnection() == null) return;
         INSTANCE.sendToServer(message);
     }
 

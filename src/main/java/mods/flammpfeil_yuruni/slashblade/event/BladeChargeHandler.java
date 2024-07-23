@@ -1,7 +1,7 @@
 package mods.flammpfeil_yuruni.slashblade.event;
 
 import mods.flammpfeil_yuruni.slashblade.SlashBlade;
-import mods.flammpfeil_yuruni.slashblade.capability.powerrank.BladeChargeProvider;
+import mods.flammpfeil_yuruni.slashblade.capability.bladecharge.BladeChargeProvider;
 import mods.flammpfeil_yuruni.slashblade.util.MobilitySkillCanceler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;

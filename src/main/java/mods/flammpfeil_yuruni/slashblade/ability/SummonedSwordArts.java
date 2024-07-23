@@ -4,7 +4,7 @@ import mods.flammpfeil_yuruni.slashblade.SlashBlade;
 import mods.flammpfeil_yuruni.slashblade.capability.concentrationrank.CapabilityConcentrationRank;
 import mods.flammpfeil_yuruni.slashblade.capability.concentrationrank.IConcentrationRank;
 import mods.flammpfeil_yuruni.slashblade.capability.inputstate.CapabilityInputState;
-import mods.flammpfeil_yuruni.slashblade.capability.powerrank.BladeChargeProvider;
+import mods.flammpfeil_yuruni.slashblade.capability.bladecharge.BladeChargeProvider;
 import mods.flammpfeil_yuruni.slashblade.entity.*;
 import mods.flammpfeil_yuruni.slashblade.event.InputCommandEvent;
 import mods.flammpfeil_yuruni.slashblade.item.ItemSlashBlade;
@@ -121,8 +121,7 @@ public class SummonedSwordArts {
                                     return;
                                 } else if (charges.get() >= 5) {
                                     entity.getCapability(BladeChargeProvider.BLADE_CHARGE).ifPresent(bladeCharge -> {
-                                        bladeCharge.subCharges(5);
-                                        entity.sendSystemMessage(Component.literal("Current charge: " + bladeCharge.getPowerCharges()).withStyle(ChatFormatting.AQUA));
+                                        bladeCharge.subCharges(5, entity);
                                     });
                                 }
 
@@ -206,8 +205,7 @@ public class SummonedSwordArts {
                                 return;
                             } else if (charges.get() >= 9) {
                                 entity.getCapability(BladeChargeProvider.BLADE_CHARGE).ifPresent(bladeCharge -> {
-                                    bladeCharge.subCharges(9);
-                                    entity.sendSystemMessage(Component.literal("Current charge: " + bladeCharge.getPowerCharges()).withStyle(ChatFormatting.AQUA));
+                                    bladeCharge.subCharges(9, entity);
                                 });
                             }
 
@@ -283,8 +281,7 @@ public class SummonedSwordArts {
                                 return;
                             } else if (charges.get() >= 5) {
                                 entity.getCapability(BladeChargeProvider.BLADE_CHARGE).ifPresent(bladeCharge -> {
-                                    bladeCharge.subCharges(5);
-                                    entity.sendSystemMessage(Component.literal("Current charge: " + bladeCharge.getPowerCharges()).withStyle(ChatFormatting.AQUA));
+                                    bladeCharge.subCharges(5, entity);
                                 });
                             }
 
@@ -361,8 +358,7 @@ public class SummonedSwordArts {
                                 return;
                             } else if (charges.get() >= 3) {
                                 entity.getCapability(BladeChargeProvider.BLADE_CHARGE).ifPresent(bladeCharge -> {
-                                    bladeCharge.subCharges(3);
-                                    entity.sendSystemMessage(Component.literal("Current charge: " + bladeCharge.getPowerCharges()).withStyle(ChatFormatting.AQUA));
+                                    bladeCharge.subCharges(3, entity);
                                 });
                             }
 
@@ -449,8 +445,7 @@ public class SummonedSwordArts {
                     return;
                 } else if (charges.get() >= 1) {
                     sender.getCapability(BladeChargeProvider.BLADE_CHARGE).ifPresent(bladeCharge -> {
-                        bladeCharge.subCharges(1);
-                        sender.sendSystemMessage(Component.literal("Current charge: " + bladeCharge.getPowerCharges()).withStyle(ChatFormatting.AQUA));
+                        bladeCharge.subCharges(1, sender);
                     });
                 }
 

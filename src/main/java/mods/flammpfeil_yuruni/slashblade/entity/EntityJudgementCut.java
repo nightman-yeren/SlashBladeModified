@@ -2,7 +2,7 @@ package mods.flammpfeil_yuruni.slashblade.entity;
 
 import mods.flammpfeil_yuruni.slashblade.SlashBlade;
 import mods.flammpfeil_yuruni.slashblade.network.YMessages;
-import mods.flammpfeil_yuruni.slashblade.network.ypacket.PowerRankC2SPacket;
+import mods.flammpfeil_yuruni.slashblade.network.ypacket.BladeChargeSubtractC2SPacket;
 import mods.flammpfeil_yuruni.slashblade.util.*;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -222,7 +222,7 @@ public class EntityJudgementCut extends Projectile implements IShootable {
                 bladeCharge.subCharges(2);
             });
              */
-            YMessages.sendToServer(new PowerRankC2SPacket());
+            YMessages.sendToServer(new BladeChargeSubtractC2SPacket());
         }
 
         if(tickCount < 8 && tickCount % 2 == 0) {

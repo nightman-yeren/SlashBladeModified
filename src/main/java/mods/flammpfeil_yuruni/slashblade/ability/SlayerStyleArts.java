@@ -2,7 +2,7 @@ package mods.flammpfeil_yuruni.slashblade.ability;
 
 import mods.flammpfeil_yuruni.slashblade.SlashBlade;
 import mods.flammpfeil_yuruni.slashblade.capability.mobeffect.CapabilityMobEffect;
-import mods.flammpfeil_yuruni.slashblade.capability.powerrank.BladeChargeProvider;
+import mods.flammpfeil_yuruni.slashblade.capability.bladecharge.BladeChargeProvider;
 import mods.flammpfeil_yuruni.slashblade.entity.EntityAbstractSummonedSword;
 import mods.flammpfeil_yuruni.slashblade.event.InputCommandEvent;
 import mods.flammpfeil_yuruni.slashblade.item.ItemSlashBlade;
@@ -77,8 +77,7 @@ public class SlayerStyleArts {
                 //air trick Or trick up
                 if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled(MobilitySkillCanceler.MobilitySkills.SLAYER_STYLE_ARTS.name)) return;
                 sender.getCapability(BladeChargeProvider.BLADE_CHARGE).ifPresent(playerPowerCharge -> {
-                    playerPowerCharge.subCharges(1);
-                    sender.sendSystemMessage(Component.literal("Current charges: " + playerPowerCharge.getPowerCharges()).withStyle(ChatFormatting.AQUA));
+                    playerPowerCharge.subCharges(1, sender);
                 });
                 isHandled = sender.getMainHandItem().getCapability(ItemSlashBlade.BLADESTATE).map(state->{
                     Entity tmpTarget = state.getTargetEntity(worldIn);
@@ -177,8 +176,7 @@ public class SlayerStyleArts {
             if(!isHandled && !sender.onGround() && current.containsAll(back_sprint_sneak)){
                 if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled(MobilitySkillCanceler.MobilitySkills.SLAYER_STYLE_ARTS.name)) return;
                 sender.getCapability(BladeChargeProvider.BLADE_CHARGE).ifPresent(playerPowerCharge -> {
-                    playerPowerCharge.subCharges(1);
-                    sender.sendSystemMessage(Component.literal("Current charges: " + playerPowerCharge.getPowerCharges()).withStyle(ChatFormatting.AQUA));
+                    playerPowerCharge.subCharges(1, sender);
                 });
                 Vec3 oldpos = sender.position();
 
@@ -208,8 +206,7 @@ public class SlayerStyleArts {
                 //quick avoid ground
                 if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled(MobilitySkillCanceler.MobilitySkills.SLAYER_STYLE_ARTS.name)) return;
                 sender.getCapability(BladeChargeProvider.BLADE_CHARGE).ifPresent(playerPowerCharge -> {
-                    playerPowerCharge.subCharges(1);
-                    sender.sendSystemMessage(Component.literal("Current charges: " + playerPowerCharge.getPowerCharges()).withStyle(ChatFormatting.AQUA));
+                    playerPowerCharge.subCharges(1, sender);
                 });
                 int count = sender.getCapability(CapabilityMobEffect.MOB_EFFECT)
                         .map(ef->ef.doAvoid(sender.level().getGameTime()))

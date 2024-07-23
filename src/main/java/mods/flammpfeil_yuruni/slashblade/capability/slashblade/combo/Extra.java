@@ -2,17 +2,17 @@ package mods.flammpfeil_yuruni.slashblade.capability.slashblade.combo;
 
 import mods.flammpfeil_yuruni.slashblade.SlashBlade;
 import mods.flammpfeil_yuruni.slashblade.ability.StunManager;
+import mods.flammpfeil_yuruni.slashblade.capability.bladecharge.BladeChargeProvider;
 import mods.flammpfeil_yuruni.slashblade.capability.inputstate.IInputState;
-import mods.flammpfeil_yuruni.slashblade.capability.powerrank.BladeChargeProvider;
 import mods.flammpfeil_yuruni.slashblade.capability.slashblade.ComboState;
 import mods.flammpfeil_yuruni.slashblade.entity.EntitySlashEffect;
 import mods.flammpfeil_yuruni.slashblade.event.FallHandler;
 import mods.flammpfeil_yuruni.slashblade.event.client.UserPoseOverrider;
 import mods.flammpfeil_yuruni.slashblade.item.ItemSlashBlade;
+import mods.flammpfeil_yuruni.slashblade.network.YMessages;
+import mods.flammpfeil_yuruni.slashblade.network.ypacket.BladeChargeSubtractC2SPacket;
 import mods.flammpfeil_yuruni.slashblade.specialattack.JudgementCut;
 import mods.flammpfeil_yuruni.slashblade.util.*;
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -698,10 +698,6 @@ public class Extra {
             ExMotionLocation, (a)-> (a.hasEffect(MobEffects.DAMAGE_BOOST) || a.hasEffect(MobEffects.HUNGER)) ? Extra.EX_RAPID_SLASH_QUICK : Extra.EX_RAPID_SLASH, ()-> Extra.EX_RAPID_SLASH_END)
             .addHoldAction((e)->{
                 if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled("ex_rapid_slash")) return;
-                e.getCapability(BladeChargeProvider.BLADE_CHARGE).ifPresent(playerPowerCharge -> {
-                    playerPowerCharge.subCharges(1);
-                    e.sendSystemMessage(Component.literal("Current charges: " + playerPowerCharge.getPowerCharges()).withStyle(ChatFormatting.AQUA));
-                });
                 AttributeModifier am = new AttributeModifier("SweepingDamageRatio", -3, AttributeModifier.Operation.ADDITION);
                 AttributeInstance mai = e.getAttribute(ForgeMod.ENTITY_REACH.get());
                 mai.addTransientModifier(am);
@@ -727,11 +723,17 @@ public class Extra {
             })
             .addTickAction((e)->{
                 if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled("ex_rapid_slash")) return;
+                /*
                 e.getCapability(BladeChargeProvider.BLADE_CHARGE).ifPresent(playerPowerCharge -> {
-                    playerPowerCharge.subCharges(1);
-                    e.sendSystemMessage(Component.literal("Current charges: " + playerPowerCharge.getPowerCharges()).withStyle(ChatFormatting.AQUA));
+                    playerPowerCharge.subCharges(1, (Player) e);
                 });
+                 */
                 long elapsed = ComboState.getElapsed(e);
+
+                //Going to do decrement
+                if (elapsed <= 3) {
+                    YMessages.sendToServer(new BladeChargeSubtractC2SPacket());
+                }
 
                 if(elapsed == 0){
                     e.level().playSound((Player) null,e.getX(), e.getY(), e.getZ(),
@@ -739,8 +741,9 @@ public class Extra {
                             SoundSource.PLAYERS,1.0F,1.0F);
                 }
 
-                if(elapsed <= 3 && e.onGround())
-                    e.moveRelative( e.isInWater() ? 0.35f : 0.8f , new Vec3(0, 0, 1));
+                if(elapsed <= 3 && e.onGround()) {
+                    e.moveRelative(e.isInWater() ? 0.35f : 0.8f, new Vec3(0, 0, 1));
+                }
 
                 if(2 <= elapsed && elapsed < 6){
                     float roll = -45 + 90 * e.getRandom().nextFloat();
@@ -754,6 +757,7 @@ public class Extra {
                 }
 
                 if(elapsed == 7) {
+                    YMessages.sendToServer(new BladeChargeSubtractC2SPacket());
                     AttackManager.doSlash(e, -30, genRushOffset(e), false, true, rushDamageBase);
                 }
 
@@ -846,7 +850,10 @@ public class Extra {
                 if(elapsed == 0){
                     e.playSound(SoundEvents.TRIDENT_THROW, 0.80F, 0.625F + 0.1f * e.getRandom().nextFloat());
                     e.getCapability(BladeChargeProvider.BLADE_CHARGE).ifPresent(bladeCharge -> {
-                        bladeCharge.subCharges(2);
+                        //bladeCharge.subCharges(2, (Player) e);
+                        //send two times because we need to subtract 2
+                        YMessages.sendToServer(new BladeChargeSubtractC2SPacket());
+                        YMessages.sendToServer(new BladeChargeSubtractC2SPacket());
                     });
                     AdvancementHelper.grantCriterion(e,ADVANCEMENT_JUDGEMENT_CUT);
                 }

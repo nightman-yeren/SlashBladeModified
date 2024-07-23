@@ -14,10 +14,7 @@ import mods.flammpfeil_yuruni.slashblade.client.renderer.model.BladeModelManager
 import mods.flammpfeil_yuruni.slashblade.client.renderer.model.BladeMotionManager;
 import mods.flammpfeil_yuruni.slashblade.entity.*;
 import mods.flammpfeil_yuruni.slashblade.event.*;
-import mods.flammpfeil_yuruni.slashblade.event.client.AdvancementsRecipeRenderer;
-import mods.flammpfeil_yuruni.slashblade.event.client.PlayerConnection;
-import mods.flammpfeil_yuruni.slashblade.event.client.SneakingMotionCanceller;
-import mods.flammpfeil_yuruni.slashblade.event.client.UserPoseOverrider;
+import mods.flammpfeil_yuruni.slashblade.event.client.*;
 import mods.flammpfeil_yuruni.slashblade.gamerules.SlashBladeHitRule;
 import mods.flammpfeil_yuruni.slashblade.init.EntitiesInit;
 import mods.flammpfeil_yuruni.slashblade.init.SBItems;
@@ -173,6 +170,8 @@ public class SlashBlade
         DistExecutor.runWhenOn(Dist.CLIENT,()->()->{
             FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
             FMLJavaModLoadingContext.get().getModEventBus().addListener(this::Baked);
+            FMLJavaModLoadingContext.get().getModEventBus().addListener(RegisterGUIEvent::registerGUIOverlays);
+            //RegisterGUIEvent.getInstance().register(FMLJavaModLoadingContext.get().getModEventBus());
             //OBJLoader.INSTANCE.addDomain("slashblade");
 
             MinecraftForge.EVENT_BUS.addListener(MoveInputHandler::onPlayerPostTick);

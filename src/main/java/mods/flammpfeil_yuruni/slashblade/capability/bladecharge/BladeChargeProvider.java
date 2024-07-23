@@ -1,4 +1,4 @@
-package mods.flammpfeil_yuruni.slashblade.capability.powerrank;
+package mods.flammpfeil_yuruni.slashblade.capability.bladecharge;
 
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
