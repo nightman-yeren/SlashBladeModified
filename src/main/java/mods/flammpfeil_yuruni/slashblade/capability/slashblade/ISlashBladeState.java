@@ -22,7 +22,6 @@ package mods.flammpfeil_yuruni.slashblade.capability.slashblade;
 import com.google.common.collect.ImmutableRangeMap;
 import com.google.common.collect.Range;
 import com.google.common.collect.RangeMap;
-import mods.flammpfeil_yuruni.slashblade.SlashBlade;
 import mods.flammpfeil_yuruni.slashblade.capability.slashblade.combo.Extra;
 import mods.flammpfeil_yuruni.slashblade.client.renderer.CarryType;
 import mods.flammpfeil_yuruni.slashblade.event.BladeMotionEvent;
@@ -33,18 +32,18 @@ import mods.flammpfeil_yuruni.slashblade.util.AdvancementHelper;
 import mods.flammpfeil_yuruni.slashblade.util.NBTHelper;
 import mods.flammpfeil_yuruni.slashblade.util.TimeValueHelper;
 import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.stats.Stats;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.stats.Stats;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.network.PacketDistributor;
 
@@ -304,7 +303,8 @@ public interface ISlashBladeState {
     }
 
     default void updateComboSeq(LivingEntity entity, ComboState cs){
-        if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled(cs.getName())) return;
+        //if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled(cs.getName(), (ServerPlayer) entity)) return;
+        //if (ClientCanceledSkillData.isSkillCanceled(cs.getName())) return;
         this.setComboSeq(cs);
         this.setLastActionTime(entity.level().getGameTime());
 

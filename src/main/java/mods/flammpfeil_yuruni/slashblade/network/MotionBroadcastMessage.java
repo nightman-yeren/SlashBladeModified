@@ -1,7 +1,7 @@
 package mods.flammpfeil_yuruni.slashblade.network;
 
-import mods.flammpfeil_yuruni.slashblade.SlashBlade;
 import mods.flammpfeil_yuruni.slashblade.capability.slashblade.ComboState;
+import mods.flammpfeil_yuruni.slashblade.client.data.ClientCanceledSkillData;
 import mods.flammpfeil_yuruni.slashblade.event.BladeMotionEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -57,14 +57,16 @@ public class MotionBroadcastMessage {
     @OnlyIn(Dist.CLIENT)
     static public void setPoint(UUID playerId, String combo){
         Player target = Minecraft.getInstance().level.getPlayerByUUID(playerId);
+        ComboState state = ComboState.NONE.valueOf(combo);
+        //if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled(state.getName(), (ServerPlayer) target)) return;
 
         if(target == null) return;
         if(!(target instanceof AbstractClientPlayer)) return;
 
-        ComboState state = ComboState.NONE.valueOf(combo);
         if(state == null) return;
 
-        if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled(state.getName())) return;
+        //if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled(state.getName(), target)) return;
+        if (ClientCanceledSkillData.isSkillCanceled(state.getName())) return;
         MinecraftForge.EVENT_BUS.post(new BladeMotionEvent(target, state));
     }
 }

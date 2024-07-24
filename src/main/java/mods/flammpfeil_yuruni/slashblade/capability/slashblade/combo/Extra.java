@@ -5,6 +5,7 @@ import mods.flammpfeil_yuruni.slashblade.ability.StunManager;
 import mods.flammpfeil_yuruni.slashblade.capability.bladecharge.BladeChargeProvider;
 import mods.flammpfeil_yuruni.slashblade.capability.inputstate.IInputState;
 import mods.flammpfeil_yuruni.slashblade.capability.slashblade.ComboState;
+import mods.flammpfeil_yuruni.slashblade.client.data.ClientCanceledSkillData;
 import mods.flammpfeil_yuruni.slashblade.entity.EntitySlashEffect;
 import mods.flammpfeil_yuruni.slashblade.event.FallHandler;
 import mods.flammpfeil_yuruni.slashblade.event.client.UserPoseOverrider;
@@ -13,6 +14,7 @@ import mods.flammpfeil_yuruni.slashblade.network.YMessages;
 import mods.flammpfeil_yuruni.slashblade.network.ypacket.BladeChargeSubtractC2SPacket;
 import mods.flammpfeil_yuruni.slashblade.specialattack.JudgementCut;
 import mods.flammpfeil_yuruni.slashblade.util.*;
+import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -697,7 +699,10 @@ public class Extra {
             ()->2000, ()->2019, ()->1.0f, ()->false,()->0,
             ExMotionLocation, (a)-> (a.hasEffect(MobEffects.DAMAGE_BOOST) || a.hasEffect(MobEffects.HUNGER)) ? Extra.EX_RAPID_SLASH_QUICK : Extra.EX_RAPID_SLASH, ()-> Extra.EX_RAPID_SLASH_END)
             .addHoldAction((e)->{
-                if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled("ex_rapid_slash")) return;
+                //if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled("ex_rapid_slash", (Player) e)) return;
+                if (!(e instanceof Player)) return;
+                if (!Objects.equals(e.getName().getString(), Minecraft.getInstance().player.getName().getString())) return;
+                if (ClientCanceledSkillData.isSkillCanceled("ex_rapid_slash")) return;
                 AttributeModifier am = new AttributeModifier("SweepingDamageRatio", -3, AttributeModifier.Operation.ADDITION);
                 AttributeInstance mai = e.getAttribute(ForgeMod.ENTITY_REACH.get());
                 mai.addTransientModifier(am);
@@ -722,7 +727,10 @@ public class Extra {
                 mai.removeModifier(am);
             })
             .addTickAction((e)->{
-                if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled("ex_rapid_slash")) return;
+                //if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled("ex_rapid_slash", (Player) e)) return;
+                if (!(e instanceof Player)) return;
+                if (!Objects.equals(e.getName().getString(), Minecraft.getInstance().player.getName().getString())) return;
+                if (ClientCanceledSkillData.isSkillCanceled("ex_rapid_slash")) return;
                 /*
                 e.getCapability(BladeChargeProvider.BLADE_CHARGE).ifPresent(playerPowerCharge -> {
                     playerPowerCharge.subCharges(1, (Player) e);
@@ -844,7 +852,8 @@ public class Extra {
             ()->1900,()->1923,()->1.0f,()->false,()->0,
             ExMotionLocation, (a)-> Extra.EX_JUDGEMENT_CUT, ()->Extra.EX_JUDGEMENT_CUT_SLASH)
             .addTickAction((e)->{
-                if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled(MobilitySkillCanceler.MobilitySkills.JUDGEMENT_CUT.name)) return;
+                //if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled(MobilitySkillCanceler.MobilitySkills.JUDGEMENT_CUT.name, (Player) e)) return;
+                if (ClientCanceledSkillData.isSkillCanceled("ex_rapid_slash")) return;
                 long elapsed = ComboState.getElapsed(e);
 
                 if(elapsed == 0){

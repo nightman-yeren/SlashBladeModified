@@ -1,6 +1,7 @@
 package mods.flammpfeil_yuruni.slashblade.entity;
 
 import mods.flammpfeil_yuruni.slashblade.SlashBlade;
+import mods.flammpfeil_yuruni.slashblade.client.data.ClientCanceledSkillData;
 import mods.flammpfeil_yuruni.slashblade.network.YMessages;
 import mods.flammpfeil_yuruni.slashblade.network.ypacket.BladeChargeSubtractC2SPacket;
 import mods.flammpfeil_yuruni.slashblade.util.*;
@@ -20,6 +21,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.level.Level;
@@ -211,7 +213,11 @@ public class EntityJudgementCut extends Projectile implements IShootable {
     public void tick() {
         super.tick();
 
-        if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled(MobilitySkillCanceler.MobilitySkills.JUDGEMENT_CUT.name)) {
+        //if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled(MobilitySkillCanceler.MobilitySkills.JUDGEMENT_CUT.name, (Player) this.getShooter())) {
+            //tryDespawn();
+            //return;
+        //}
+        if (ClientCanceledSkillData.isSkillCanceled(MobilitySkillCanceler.MobilitySkills.JUDGEMENT_CUT.name)) {
             tryDespawn();
             return;
         }

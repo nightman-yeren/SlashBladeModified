@@ -3,6 +3,7 @@ package mods.flammpfeil_yuruni.slashblade.network;
 import mods.flammpfeil_yuruni.slashblade.SlashBlade;
 import mods.flammpfeil_yuruni.slashblade.network.ypacket.BladeChargeSubtractC2SPacket;
 import mods.flammpfeil_yuruni.slashblade.network.ypacket.BladeChargeSyncS2CPacket;
+import mods.flammpfeil_yuruni.slashblade.network.ypacket.CanceledSkillSyncS2CPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -41,6 +42,12 @@ public class YMessages {
                 .encoder(BladeChargeSyncS2CPacket::toBytes)
                 .consumerMainThread(BladeChargeSyncS2CPacket::handle)
                 .add();
+
+        net.messageBuilder(CanceledSkillSyncS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(CanceledSkillSyncS2CPacket::new)
+                .encoder(CanceledSkillSyncS2CPacket::toBytes)
+                .consumerMainThread(CanceledSkillSyncS2CPacket::handle)
+                .add();
     }
 
     public static <MSG> void sendToServer(MSG message) {
@@ -50,6 +57,10 @@ public class YMessages {
 
     public static <MSG> void sendToPlayer(MSG message, ServerPlayer player) {
         INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), message);
+    }
+
+    public static <MSG> void sendToAllPlayers(MSG msg) {
+        INSTANCE.send(PacketDistributor.ALL.noArg(), msg);
     }
 
 }

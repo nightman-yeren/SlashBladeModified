@@ -1,12 +1,15 @@
 package mods.flammpfeil_yuruni.slashblade.event;
 
-import mods.flammpfeil_yuruni.slashblade.SlashBlade;
+import mods.flammpfeil_yuruni.slashblade.capability.slashblade.combo.Extra;
 import mods.flammpfeil_yuruni.slashblade.network.MotionBroadcastMessage;
 import mods.flammpfeil_yuruni.slashblade.network.NetworkManager;
+import net.minecraft.client.Minecraft;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.network.PacketDistributor;
+
+import java.util.Objects;
 
 public class BladeMotionEventBroadcaster {
 
@@ -23,16 +26,18 @@ public class BladeMotionEventBroadcaster {
 
     @SubscribeEvent
     public void onBladeMotion(BladeMotionEvent event){
-        if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled(event.getCombo().getName())) return;
         if(!(event.getEntity() instanceof ServerPlayer)) return;
 
+        //if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled(event.getCombo().getName(), (ServerPlayer) event.getEntity())) return;
+
         ServerPlayer sp = (ServerPlayer) event.getEntity();
+        assert Minecraft.getInstance().player != null;
 
         MotionBroadcastMessage msg = new MotionBroadcastMessage();
         msg.playerId = sp.getUUID();
         msg.combo = event.getCombo().getName();
 
-        //if(msg.combo == Extra.EX_JUDGEMENT_CUT.getName())
+        if(Objects.equals(msg.combo, Extra.EX_JUDGEMENT_CUT.getName()))
         {
             NetworkManager.INSTANCE.send(PacketDistributor.NEAR.with(()->new PacketDistributor.TargetPoint(sp.getX(), sp.getY(),sp.getZ(), 20, sp.serverLevel().dimension())), msg);
         }
