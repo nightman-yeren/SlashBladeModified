@@ -12,6 +12,7 @@ import mods.flammpfeil_yuruni.slashblade.client.renderer.gui.RankRenderer;
 import mods.flammpfeil_yuruni.slashblade.client.renderer.model.BladeModel;
 import mods.flammpfeil_yuruni.slashblade.client.renderer.model.BladeModelManager;
 import mods.flammpfeil_yuruni.slashblade.client.renderer.model.BladeMotionManager;
+import mods.flammpfeil_yuruni.slashblade.data.ServerCanceledSkillData;
 import mods.flammpfeil_yuruni.slashblade.entity.*;
 import mods.flammpfeil_yuruni.slashblade.event.*;
 import mods.flammpfeil_yuruni.slashblade.event.client.*;
@@ -26,7 +27,7 @@ import mods.flammpfeil_yuruni.slashblade.memory.ServerMemory;
 import mods.flammpfeil_yuruni.slashblade.network.NetworkManager;
 import mods.flammpfeil_yuruni.slashblade.network.YMessages;
 import mods.flammpfeil_yuruni.slashblade.optional.playerAnim.PlayerAnimationOverrider;
-import mods.flammpfeil_yuruni.slashblade.util.MobilitySkillCanceler;
+import mods.flammpfeil_yuruni.slashblade.client.MobilitySkillCanceler;
 import mods.flammpfeil_yuruni.slashblade.util.TargetSelector;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -91,6 +92,7 @@ public class SlashBlade
 
     public static ServerMemory serverMemory = ServerMemory.getInstance();
     public static MobilitySkillCanceler mobilitySkillCanceler = new MobilitySkillCanceler();
+    public static ServerCanceledSkillData serverCanceledSkillData = ServerCanceledSkillData.getInstance();
 
     public static final CreativeModeTab SLASHBLADE = CreativeModeTab.builder()
             .title(Component.translatable(modid))

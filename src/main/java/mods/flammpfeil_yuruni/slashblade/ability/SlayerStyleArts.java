@@ -3,11 +3,11 @@ package mods.flammpfeil_yuruni.slashblade.ability;
 import mods.flammpfeil_yuruni.slashblade.SlashBlade;
 import mods.flammpfeil_yuruni.slashblade.capability.mobeffect.CapabilityMobEffect;
 import mods.flammpfeil_yuruni.slashblade.capability.bladecharge.BladeChargeProvider;
+import mods.flammpfeil_yuruni.slashblade.client.MobilitySkillCanceler;
 import mods.flammpfeil_yuruni.slashblade.entity.EntityAbstractSummonedSword;
 import mods.flammpfeil_yuruni.slashblade.event.InputCommandEvent;
 import mods.flammpfeil_yuruni.slashblade.item.ItemSlashBlade;
 import mods.flammpfeil_yuruni.slashblade.util.*;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
@@ -75,7 +75,8 @@ public class SlayerStyleArts {
 
             if(current.containsAll(fowerd_sprint_sneak)){
                 //air trick Or trick up
-                if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled(MobilitySkillCanceler.MobilitySkills.SLAYER_STYLE_ARTS.name)) return;
+                //if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled(MobilitySkillCanceler.MobilitySkills.SLAYER_STYLE_ARTS.name)) return;
+                if (SlashBlade.serverCanceledSkillData.isSkillCanceledInPlayer(sender, MobilitySkillCanceler.MobilitySkills.SLAYER_STYLE_ARTS.name)) return;
                 sender.getCapability(BladeChargeProvider.BLADE_CHARGE).ifPresent(playerPowerCharge -> {
                     playerPowerCharge.subCharges(1, sender);
                 });

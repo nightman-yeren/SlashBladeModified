@@ -5,6 +5,7 @@ import mods.flammpfeil_yuruni.slashblade.ability.StunManager;
 import mods.flammpfeil_yuruni.slashblade.capability.bladecharge.BladeChargeProvider;
 import mods.flammpfeil_yuruni.slashblade.capability.inputstate.IInputState;
 import mods.flammpfeil_yuruni.slashblade.capability.slashblade.ComboState;
+import mods.flammpfeil_yuruni.slashblade.client.MobilitySkillCanceler;
 import mods.flammpfeil_yuruni.slashblade.entity.EntitySlashEffect;
 import mods.flammpfeil_yuruni.slashblade.event.FallHandler;
 import mods.flammpfeil_yuruni.slashblade.event.client.UserPoseOverrider;
@@ -89,7 +90,20 @@ public class Extra {
                             a.getCapability(ComboState.INPUT_STATE).map((state)->state.getCommands(a)).orElseGet(()-> EnumSet.noneOf(InputCommand.class));
 
                     return ex_standbyMap.stream()
-                            .filter((entry)->commands.containsAll(entry.getKey()))
+                            .filter((entry)-> {
+                                //if (!isSelfPlayer) return commands.containsAll(entry.getKey());
+                                //if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled(MobilitySkillCanceler.MobilitySkills.RAPID_SLASH.name)) {
+                                if (SlashBlade.serverCanceledSkillData.isSkillCanceledInPlayer(a.getName().getString(), MobilitySkillCanceler.MobilitySkills.RAPID_SLASH.name)) {
+                                    boolean pass = !commands.containsAll(EnumSet.of(InputCommand.ON_GROUND, InputCommand.FORWARD, InputCommand.SNEAK, InputCommand.R_CLICK));
+                                    if (pass) {
+                                        return commands.containsAll(entry.getKey());
+                                    } else {
+                                        return false;
+                                    }
+                                } else {
+                                    return commands.containsAll(entry.getKey());
+                                }
+                            })
                             //.findFirst()
                             .min(Comparator.comparingInt((entry)-> entry.getValue().get().getPriority()))
                             .map((entry)->entry.getValue().get())
@@ -697,7 +711,9 @@ public class Extra {
             ()->2000, ()->2019, ()->1.0f, ()->false,()->0,
             ExMotionLocation, (a)-> (a.hasEffect(MobEffects.DAMAGE_BOOST) || a.hasEffect(MobEffects.HUNGER)) ? Extra.EX_RAPID_SLASH_QUICK : Extra.EX_RAPID_SLASH, ()-> Extra.EX_RAPID_SLASH_END)
             .addHoldAction((e)->{
-                if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled("ex_rapid_slash")) return;
+                //if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled("ex_rapid_slash")) return; //Make it stop midway if not enough charges
+                if (SlashBlade.serverCanceledSkillData.isSkillCanceledInPlayer(e.getName().getString(), MobilitySkillCanceler.MobilitySkills.RAPID_SLASH.name)) return;
+                //if (!Objects.equals(e.getName().getString(), Minecraft.getInstance().player.getName().getString())) return; straight up disables rapid slash, not a valid implementation
                 AttributeModifier am = new AttributeModifier("SweepingDamageRatio", -3, AttributeModifier.Operation.ADDITION);
                 AttributeInstance mai = e.getAttribute(ForgeMod.ENTITY_REACH.get());
                 mai.addTransientModifier(am);
@@ -722,7 +738,9 @@ public class Extra {
                 mai.removeModifier(am);
             })
             .addTickAction((e)->{
-                if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled("ex_rapid_slash")) return;
+                //if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled("ex_rapid_slash")) return; //Make it stop midway if not enough charges
+                if (SlashBlade.serverCanceledSkillData.isSkillCanceledInPlayer(e.getName().getString(), MobilitySkillCanceler.MobilitySkills.RAPID_SLASH.name)) return;
+                //if (!Objects.equals(e.getName().getString(), Minecraft.getInstance().player.getName().getString())) return; straight up disables rapid slash, not a valid implementation
                 /*
                 e.getCapability(BladeChargeProvider.BLADE_CHARGE).ifPresent(playerPowerCharge -> {
                     playerPowerCharge.subCharges(1, (Player) e);

@@ -1,15 +1,17 @@
 package mods.flammpfeil_yuruni.slashblade.event;
 
 import com.google.gson.*;
+import mods.flammpfeil_yuruni.slashblade.SlashBlade;
 import mods.flammpfeil_yuruni.slashblade.capability.inputstate.IInputState;
+import mods.flammpfeil_yuruni.slashblade.client.MobilitySkillCanceler;
 import mods.flammpfeil_yuruni.slashblade.item.ItemSlashBlade;
 import mods.flammpfeil_yuruni.slashblade.network.MoveCommandMessage;
 import mods.flammpfeil_yuruni.slashblade.network.NetworkManager;
 import mods.flammpfeil_yuruni.slashblade.util.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -183,6 +185,22 @@ public class MoveInputHandler {
         boolean doSend = !old.equals(commands);
 
         if(doSend){
+
+            //Check for if one of the inputs matches the current commands of a canceled skill, then disable it. The other check is at Extra.java's standByMap
+            for (MobilitySkillCanceler.MobilitySkills mobilitySkill : MobilitySkillCanceler.MobilitySkills.values()) {
+                if (mobilitySkill.commands.equals(commands) && !mobilitySkill.include) {
+                    if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled(mobilitySkill.name)) {
+                        return;
+                    }
+                }
+                if (mobilitySkill.include) {
+                    if (commands.containsAll(mobilitySkill.commands)) {
+                        if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled(mobilitySkill.name)) {
+                            return;
+                        }
+                    }
+                }
+            }
             player.getCapability(INPUT_STATE)
                     .ifPresent((state)->{
                         commands.forEach(c->{

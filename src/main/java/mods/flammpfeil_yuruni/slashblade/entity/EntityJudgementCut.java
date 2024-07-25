@@ -211,10 +211,12 @@ public class EntityJudgementCut extends Projectile implements IShootable {
     public void tick() {
         super.tick();
 
+        /*
         if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled(MobilitySkillCanceler.MobilitySkills.JUDGEMENT_CUT.name)) {
             tryDespawn();
             return;
         }
+         */
 
         if (this.tickCount == 0) {
             /*

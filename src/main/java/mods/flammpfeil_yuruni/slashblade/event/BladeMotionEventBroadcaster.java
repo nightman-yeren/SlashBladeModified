@@ -23,10 +23,11 @@ public class BladeMotionEventBroadcaster {
 
     @SubscribeEvent
     public void onBladeMotion(BladeMotionEvent event){
-        if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled(event.getCombo().getName())) return;
+        //if (SlashBlade.mobilitySkillCanceler.isMobilitySkillCanceled(event.getCombo().getName())) return;
         if(!(event.getEntity() instanceof ServerPlayer)) return;
 
         ServerPlayer sp = (ServerPlayer) event.getEntity();
+        if (SlashBlade.serverCanceledSkillData.isSkillCanceledInPlayer(sp, event.getCombo().getName())) return;
 
         MotionBroadcastMessage msg = new MotionBroadcastMessage();
         msg.playerId = sp.getUUID();
