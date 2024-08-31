@@ -154,7 +154,7 @@ public class RefineHandler {
         }
 
         if (after >= 501) {
-            AdvancementHelper.grantCriterion((ServerPlayer) event.getEntity(), OVERSHARP);
+            AdvancementHelper.grantCriterion((ServerPlayer) event.getEntity(), OVERSHARP); //TODO: Make this incredibly hard, nether star too easy
         }
     }
 

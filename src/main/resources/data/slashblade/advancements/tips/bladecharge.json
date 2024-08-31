@@ -7,12 +7,14 @@
       "translate": "adv.slashblade.bladecharge.desc"
     },
     "icon": {
-      "item": "slashblade:slashblade",
-      "nbt": ""
+      "item": "slashblade:slashblade"
     },
     "frame": "task"
   },
   "parent": "slashblade:root",
   "criteria": {
+    "customtrigger": {
+      "trigger": "minecraft:impossible"
+    }
   }
 }
