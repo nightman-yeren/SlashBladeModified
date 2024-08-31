@@ -6,6 +6,7 @@ import mods.flammpfeil_yuruni.slashblade.capability.concentrationrank.Capability
 import mods.flammpfeil_yuruni.slashblade.capability.inputstate.CapabilityInputState;
 import mods.flammpfeil_yuruni.slashblade.capability.mobeffect.CapabilityMobEffect;
 import mods.flammpfeil_yuruni.slashblade.capability.slashblade.CapabilitySlashBlade;
+import mods.flammpfeil_yuruni.slashblade.client.MobilitySkillCanceler;
 import mods.flammpfeil_yuruni.slashblade.client.renderer.LockonCircleRender;
 import mods.flammpfeil_yuruni.slashblade.client.renderer.entity.*;
 import mods.flammpfeil_yuruni.slashblade.client.renderer.gui.RankRenderer;
@@ -13,6 +14,7 @@ import mods.flammpfeil_yuruni.slashblade.client.renderer.model.BladeModel;
 import mods.flammpfeil_yuruni.slashblade.client.renderer.model.BladeModelManager;
 import mods.flammpfeil_yuruni.slashblade.client.renderer.model.BladeMotionManager;
 import mods.flammpfeil_yuruni.slashblade.data.ServerCanceledSkillData;
+import mods.flammpfeil_yuruni.slashblade.enchantment.SlashBladeEnchantments;
 import mods.flammpfeil_yuruni.slashblade.entity.*;
 import mods.flammpfeil_yuruni.slashblade.event.*;
 import mods.flammpfeil_yuruni.slashblade.event.client.*;
@@ -27,7 +29,6 @@ import mods.flammpfeil_yuruni.slashblade.memory.ServerMemory;
 import mods.flammpfeil_yuruni.slashblade.network.NetworkManager;
 import mods.flammpfeil_yuruni.slashblade.network.YMessages;
 import mods.flammpfeil_yuruni.slashblade.optional.playerAnim.PlayerAnimationOverrider;
-import mods.flammpfeil_yuruni.slashblade.client.MobilitySkillCanceler;
 import mods.flammpfeil_yuruni.slashblade.util.TargetSelector;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -183,6 +184,7 @@ public class SlashBlade
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
         NetworkManager.register();
+        SlashBladeEnchantments.Register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 
     private void setup(final FMLCommonSetupEvent event)

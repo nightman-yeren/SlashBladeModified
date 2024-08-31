@@ -1,6 +1,8 @@
 package mods.flammpfeil_yuruni.slashblade.event;
 
 import mods.flammpfeil_yuruni.slashblade.capability.bladecharge.BladeChargeProvider;
+import mods.flammpfeil_yuruni.slashblade.capability.concentrationrank.CapabilityConcentrationRank;
+import mods.flammpfeil_yuruni.slashblade.capability.concentrationrank.IConcentrationRank;
 import mods.flammpfeil_yuruni.slashblade.init.SBItems;
 import mods.flammpfeil_yuruni.slashblade.item.ItemSlashBlade;
 import net.minecraft.server.level.ServerPlayer;
@@ -12,6 +14,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -63,7 +66,7 @@ public class KillCounter {
     }
 
     @SubscribeEvent
-    public void onLivingHurtEvent(LivingHurtEvent event) {
+    public void onLivingHurtEvent(LivingHurtEvent event) { //TODO: Modify or straight up replace this to allow more complicated playstyles(wynnify this shit)
         Entity source = event.getSource().getEntity();
 
         if (!(source instanceof LivingEntity)) return;
@@ -73,13 +76,13 @@ public class KillCounter {
         if(stack.isEmpty()) return;
         if(!(stack.getItem() instanceof ItemSlashBlade)) return;
 
-        /*
-        stack.getCapability(ItemSlashBlade.BLADESTATE).ifPresent(state->{
-            state.setKillCount(state.getKillCount() + 1);
-        });
-         */
-        source.getCapability(BladeChargeProvider.BLADE_CHARGE).ifPresent(bladeCharge -> {
-            bladeCharge.addCharges(1, (ServerPlayer) source);
-        });
+        LazyOptional<IConcentrationRank> rank = source.getCapability(CapabilityConcentrationRank.RANK_POINT);
+        if(rank.filter(r-> IConcentrationRank.ConcentrationRanks.SSS.level <= r.getRank(source.level().getGameTime()).level).isPresent()) { //Check if rank is high
+            if (Math.random() <= 0.1) { //10 percent chance to add one blade charge
+                source.getCapability(BladeChargeProvider.BLADE_CHARGE).ifPresent(bladeCharge -> {
+                    bladeCharge.addCharges(1, (ServerPlayer) source); //TODO: Make combo B comsume charges too
+                });
+            }
+        }
     }
 }

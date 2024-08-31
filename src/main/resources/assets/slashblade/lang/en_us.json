@@ -17,6 +17,8 @@
   "slashblade.tooltip.material.broken":"Broken",
   "slashblade.tooltip.material.noscabbard":"No Scabbard",
   "slashblade.tooltip.material.enchantments":"Enchantments",
+
+  "enchantment.slashblade.charge_stealer": "Charge Stealer",
   
   "item.slashblade.slashblade": "Anonymity -Nameless-",
   "item.slashblade.slashblade.desc": "Cannibalism maintenance\nA pure vessel.",
