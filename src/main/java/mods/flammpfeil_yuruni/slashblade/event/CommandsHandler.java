@@ -25,6 +25,7 @@ public class CommandsHandler {
         new GetExcludedPlayers(event.getDispatcher());
         new ContributeAndStory(event.getDispatcher());
         new TestAnimationCommand(event.getDispatcher());
+        new BladeChargeHudSetCommand(event.getDispatcher());
 
         ConfigCommand.register(event.getDispatcher());
     }

@@ -66,7 +66,7 @@ public class KillCounter {
     }
 
     @SubscribeEvent
-    public void onLivingHurtEvent(LivingHurtEvent event) { //TODO: Modify or straight up replace this to allow more complicated playstyles(wynnify this shit)
+    public void onLivingHurtEvent(LivingHurtEvent event) {
         Entity source = event.getSource().getEntity();
 
         if (!(source instanceof LivingEntity)) return;

@@ -3,6 +3,7 @@ package mods.flammpfeil_yuruni.slashblade.client.renderer.gui;
 import com.mojang.blaze3d.systems.RenderSystem;
 import mods.flammpfeil_yuruni.slashblade.SlashBlade;
 import mods.flammpfeil_yuruni.slashblade.client.data.BladeChargeData;
+import mods.flammpfeil_yuruni.slashblade.config.ClientConfigs;
 import mods.flammpfeil_yuruni.slashblade.item.ItemSlashBlade;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
@@ -26,18 +27,21 @@ public class BladeChargeOverlay {
         int x = screenWidth / 2;
         int y = screenHeight;
 
+        int xOffset = ClientConfigs.BLADECHARGE_OVERLAY_OFFSET_X.get();
+        int yOffset = ClientConfigs.BLADECHARGE_OVERLAY_OFFSET_Y.get();
+
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.setShaderTexture(0, EMPTY_CHARGE);
 
         for (int i = 0; i < 10; i++) {
-            guiGraphics.blit(EMPTY_CHARGE, x - 94 + (i * 9), y - 54, 0, 0, 12, 12, 12, 12);
+            guiGraphics.blit(EMPTY_CHARGE, x - xOffset + (i * 9), y - yOffset, 0, 0, 12, 12, 12, 12);
         }
 
         RenderSystem.setShaderTexture(0, FILLED_CHARGE);
         for (int i = 0; i < 10; i++) {
             if (BladeChargeData.getCharges() > i) {
-                guiGraphics.blit(FILLED_CHARGE, x - 94 + (i * 9), y - 54, 0, 0, 12, 12, 12, 12);
+                guiGraphics.blit(FILLED_CHARGE, x - xOffset + (i * 9), y - yOffset, 0, 0, 12, 12, 12, 12);
             } else {
                 break;
             }

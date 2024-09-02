@@ -13,7 +13,7 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import org.jetbrains.annotations.NotNull;
 
-public class ChargeStealerEnchantment extends Enchantment {
+public class ChargeStealerEnchantment extends Enchantment { //TODO: Add way to get this enchantment
     public ChargeStealerEnchantment(Rarity rarity, EnchantmentCategory Category, EquipmentSlot... ApplicableSlots) {
         super(rarity, Category, ApplicableSlots);
     }

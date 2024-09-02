@@ -13,6 +13,7 @@ import mods.flammpfeil_yuruni.slashblade.client.renderer.gui.RankRenderer;
 import mods.flammpfeil_yuruni.slashblade.client.renderer.model.BladeModel;
 import mods.flammpfeil_yuruni.slashblade.client.renderer.model.BladeModelManager;
 import mods.flammpfeil_yuruni.slashblade.client.renderer.model.BladeMotionManager;
+import mods.flammpfeil_yuruni.slashblade.config.ClientConfigs;
 import mods.flammpfeil_yuruni.slashblade.data.ServerCanceledSkillData;
 import mods.flammpfeil_yuruni.slashblade.enchantment.SlashBladeEnchantments;
 import mods.flammpfeil_yuruni.slashblade.entity.*;
@@ -67,7 +68,9 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -182,9 +185,12 @@ public class SlashBlade
 
 
         // Register ourselves for server and other game events we are interested in
-        MinecraftForge.EVENT_BUS.register(this);
+        //  Added By Yuruni  //
         NetworkManager.register();
         SlashBladeEnchantments.Register(FMLJavaModLoadingContext.get().getModEventBus());
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfigs.SPEC, "slashblade-client.toml");
+        //^^Added By Yuruni^^//
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
     private void setup(final FMLCommonSetupEvent event)
