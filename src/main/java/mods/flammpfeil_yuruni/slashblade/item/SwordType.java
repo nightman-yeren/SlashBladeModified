@@ -13,7 +13,7 @@ public enum SwordType{
     Perfect,
     Enchanted,
     Bewitched,
-    SoulEeater,
+    SoulEater,
     FiercerEdge,
     NoScabbard,
     Sealed,
