@@ -91,7 +91,6 @@ public class TargetSelector {
                 return true;
 
             if (livingentity instanceof Player)
-                //if (isPlayerInList(SlashBlade.hitRuleMemory.getCurrentPlayer(), (Player)livingentity)) return false;
                 return SlashBladeHitRule.isEnabled(livingentity.level(), SlashBladeHitRule.SLASHBLADE_HITPLAYER);
 
             if (livingentity instanceof Wolf)
